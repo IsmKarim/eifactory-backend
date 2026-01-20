@@ -24,13 +24,14 @@ export class Session {
   @Prop({ default: false, index: true })
   active!: boolean;
 
-  @Prop({ default: null })
-  startsAt?: Date | null;
+  
+  @Prop({ type: Date, default: null })
+  startsAt!: Date | null;
 
-  @Prop({ default: null })
-  endsAt?: Date | null;
+  @Prop({ type: Date, default: null })
+  endsAt!: Date | null;
 
-  @Prop({ default: null, trim: true, maxlength: 200 })
+  @Prop({ type: String, default: null, trim: true, maxlength: 200 })
   note?: string | null;
 
   @Prop({
@@ -39,7 +40,7 @@ export class Session {
   })
   winnerAttemptIds!: Types.ObjectId[];
 
-  @Prop({ default: null })
+  @Prop({ type: Date, default: null })
   winnersDeclaredAt?: Date | null;
 }
 
