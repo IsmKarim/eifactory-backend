@@ -12,7 +12,7 @@ import { SessionsModule } from './modules/session/session.module';
     validationSchema: envSchema,
     cache: true,
   }),
-    DatabaseModule, SessionsModule],
+    DatabaseModule, SessionsModule , AdminAuthModule],
   controllers: [AppController],
   providers: [AppService],
 })
