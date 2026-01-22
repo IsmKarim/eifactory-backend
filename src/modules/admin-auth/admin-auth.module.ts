@@ -1,5 +1,6 @@
+// src/modules/admin-auth/admin-auth.module.ts
 import { Module } from "@nestjs/common";
-import { JwtModule } from "@nestjs/jwt";
+import { JwtModule, JwtModuleOptions } from "@nestjs/jwt";
 import { PassportModule } from "@nestjs/passport";
 import { ConfigService } from "@nestjs/config";
 
@@ -12,10 +13,20 @@ import { JwtStrategy } from "./strategies/jwt.strategy";
     PassportModule,
     JwtModule.registerAsync({
       inject: [ConfigService],
-      useFactory: (config: ConfigService) => ({
-        secret: config.get<string>("JWT_SECRET"),
-        signOptions: { expiresIn: config.get<string>("JWT_EXPIRES_IN") || "12h" },
-      }),
+      useFactory: (config: ConfigService): JwtModuleOptions => {
+        const secret = config.get<string>("JWT_SECRET");
+        if (!secret) throw new Error("JWT_SECRET is missing");
+
+        const expiresIn = config.get<string>("JWT_EXPIRES_IN") ?? "12h";
+
+        return {
+          secret,
+          signOptions: {
+            // typings are strict; runtime accepts "12h"
+            expiresIn: expiresIn as any,
+          },
+        };
+      },
     }),
   ],
   controllers: [AdminAuthController],

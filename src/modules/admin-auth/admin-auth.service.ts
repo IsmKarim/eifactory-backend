@@ -23,10 +23,13 @@ export class AdminAuthService {
     const normalizedEmail = email.trim().toLowerCase();
 
     if (normalizedEmail !== this.adminEmail) {
+      console.log("wrong mail")
       throw new UnauthorizedException("Invalid credentials");
     }
 
     const ok = await bcrypt.compare(password, this.adminPasswordHash);
+    console.log("wrong pass")
+
     if (!ok) throw new UnauthorizedException("Invalid credentials");
 
     const payload: AdminJwtPayload = { sub: "admin", email: this.adminEmail };

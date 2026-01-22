@@ -5,6 +5,7 @@ import { ConfigModule } from '@nestjs/config';
 import { envSchema } from './config/env.schema';
 import { DatabaseModule } from './database/mongoose.module';
 import { SessionsModule } from './modules/session/session.module';
+import {AdminAuthModule} from './modules/admin-auth/admin-auth.module'
 
 @Module({
   imports: [ConfigModule.forRoot({
@@ -14,6 +15,6 @@ import { SessionsModule } from './modules/session/session.module';
   }),
     DatabaseModule, SessionsModule , AdminAuthModule],
   controllers: [AppController],
-  providers: [AppService],
+    providers: [AppService],
 })
 export class AppModule { }
