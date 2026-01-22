@@ -2,9 +2,9 @@ import { BadRequestException, Injectable, NotFoundException } from "@nestjs/comm
 import { InjectModel } from "@nestjs/mongoose";
 import { Model, Types } from "mongoose";
 import { Attempt, AttemptDocument } from "./schemas/attempt.schema";
-import { AttemptStatus } from "../../common/enums/attempt-status.enum";
 import { QuestionsService } from "../questions/questions.service";
-import { SubmitAttemptDto } from "./dto/submit-attempt.dto";
+import { AttemptStatus } from "src/common/enums/attempt-status.enums";
+import { SubmitAttemptDto } from "./dto/submt-attempt.dto";
 
 @Injectable()
 export class AttemptsService {

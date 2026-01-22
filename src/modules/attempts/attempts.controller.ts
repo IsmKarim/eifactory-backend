@@ -1,6 +1,6 @@
 import { Body, Controller, Param, Post } from "@nestjs/common";
 import { AttemptsService } from "./attempts.service";
-import { SubmitAttemptDto } from "./dto/submit-attempt.dto";
+import { SubmitAttemptDto } from "./dto/submt-attempt.dto";
 
 @Controller("/public/attempts")
 export class AttemptsController {
