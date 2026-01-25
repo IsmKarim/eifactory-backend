@@ -12,8 +12,38 @@ export class AttemptAnswer {
   @Prop({ required: true, trim: true })
   choiceId!: string;
 }
-
 export const AttemptAnswerSchema = SchemaFactory.createForClass(AttemptAnswer);
+
+@Schema({ _id: false })
+export class AttemptQuestionChoice {
+  @Prop({ required: true, trim: true, maxlength: 20 })
+  id!: string;
+
+  @Prop({ required: true, trim: true, maxlength: 300 })
+  label!: string;
+}
+export const AttemptQuestionChoiceSchema =
+  SchemaFactory.createForClass(AttemptQuestionChoice);
+
+@Schema({ _id: false })
+export class AttemptQuestion {
+  @Prop({ required: true, trim: true, maxlength: 80 })
+  questionId!: string;
+
+  @Prop({ required: true, trim: true, maxlength: 800 })
+  prompt!: string;
+
+  @Prop({ type: [AttemptQuestionChoiceSchema], required: true })
+  choices!: AttemptQuestionChoice[];
+
+  // stored for stable scoring, NEVER returned publicly
+  @Prop({ required: true, trim: true, maxlength: 20 })
+  correctChoiceId!: string;
+
+  @Prop({ type: Number, default: 1, min: 0 })
+  points!: number;
+}
+export const AttemptQuestionSchema = SchemaFactory.createForClass(AttemptQuestion);
 
 @Schema({ timestamps: true })
 export class Attempt {
@@ -23,10 +53,14 @@ export class Attempt {
   @Prop({ type: Types.ObjectId, ref: "Session", required: true, index: true })
   sessionId!: Types.ObjectId;
 
-  @Prop({ required: true, enum: AttemptStatus, default: AttemptStatus.CREATED, index: true })
+  @Prop({
+    required: true,
+    enum: AttemptStatus,
+    default: AttemptStatus.CREATED,
+    index: true,
+  })
   status!: AttemptStatus;
 
-  // unions need explicit type for nest/mongoose
   @Prop({ type: Date, default: null })
   startedAt!: Date | null;
 
@@ -36,10 +70,13 @@ export class Attempt {
   @Prop({ type: Number, default: null, min: 0 })
   elapsedMs!: number | null;
 
+  // ✅ The 3 selected questions (snapshot)
+  @Prop({ type: [AttemptQuestionSchema], default: [] })
+  questions!: AttemptQuestion[];
+
   @Prop({ type: [AttemptAnswerSchema], default: [] })
   answers!: AttemptAnswer[];
 
-  // scoring snapshot
   @Prop({ type: Number, default: 0, min: 0 })
   score!: number;
 
@@ -52,22 +89,15 @@ export class Attempt {
   @Prop({ required: true, trim: true })
   questionsVersion!: string;
 
-  // optional metadata (helpful for debugging)
-  @Prop({ default: null, trim: true, maxlength: 200 })
+  @Prop({ type: String, default: null, trim: true, maxlength: 200 })
   userAgent!: string | null;
 
-  @Prop({ default: null, trim: true, maxlength: 60 })
+  @Prop({ type: String, default: null, trim: true, maxlength: 60 })
   ip!: string | null;
 }
 
 export const AttemptSchema = SchemaFactory.createForClass(Attempt);
 
-/**
- * One attempt per participant per session (simple & clean).
- * This enforces your "already participated" rule once submitted,
- * and prevents duplicates caused by refresh.
- */
 AttemptSchema.index({ participantId: 1, sessionId: 1 }, { unique: true });
-
 AttemptSchema.index({ sessionId: 1, score: -1, elapsedMs: 1 });
 AttemptSchema.index({ sessionId: 1, submittedAt: -1 });

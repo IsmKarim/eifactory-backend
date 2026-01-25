@@ -6,6 +6,10 @@ import { envSchema } from './config/env.schema';
 import { DatabaseModule } from './database/mongoose.module';
 import { SessionsModule } from './modules/session/session.module';
 import {AdminAuthModule} from './modules/admin-auth/admin-auth.module'
+import { ParticipantsModule } from './modules/participants/participants.module';
+import { PublicModule } from './modules/public/public.module';
+import { AttemptsModule } from './modules/attempts/attempts.module';
+import { QuestionsModule } from './modules/questions/questions.module';
 
 @Module({
   imports: [ConfigModule.forRoot({
@@ -13,7 +17,7 @@ import {AdminAuthModule} from './modules/admin-auth/admin-auth.module'
     validationSchema: envSchema,
     cache: true,
   }),
-    DatabaseModule, SessionsModule , AdminAuthModule],
+    DatabaseModule, SessionsModule , AdminAuthModule , ParticipantsModule , PublicModule , AttemptsModule , QuestionsModule],
   controllers: [AppController],
     providers: [AppService],
 })
