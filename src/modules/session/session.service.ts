@@ -34,8 +34,13 @@ export class SessionsService {
     return this.sessionModel.find().sort({ createdAt: -1 }).lean();
   }
 
+
   async getActiveSession() {
-    return this.sessionModel.findOne({ active: true }).lean();
+    const activeSession = await this.sessionModel.findOne({ active: true });
+    if (!activeSession) {
+      throw new NotFoundException("No active session found.");
+    }
+    return activeSession.toObject();
   }
 
   /**
