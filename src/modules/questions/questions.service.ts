@@ -12,6 +12,7 @@ export class QuestionsService {
 
   getPublicQuestions(): { version: string; questions: PublicQuestion[] } {
     const questions = QUESTIONS.map(({ correctChoiceId, ...rest }) => rest);
+    console.log("getPublicQuestions", { version: QUESTIONS_VERSION, questions });
     return { version: QUESTIONS_VERSION, questions };
   }
 

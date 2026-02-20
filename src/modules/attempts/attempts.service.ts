@@ -80,6 +80,7 @@ export class AttemptsService {
     if (existing) {
       if (!existing.questions || existing.questions.length === 0) {
         const picked = pickRandom(questions, 5);
+        console.log("picked questions:", picked);
         existing.questions = picked.map((q) => ({
           questionId: q.id,
           prompt: q.prompt,
@@ -97,7 +98,7 @@ export class AttemptsService {
     }
 
     const picked = pickRandom(questions, 5);
-
+    console.log("picked questions:", picked);
     const created = await this.attemptModel.create({
       participantId: new Types.ObjectId(participantId),
       sessionId: new Types.ObjectId(sessionId),
@@ -108,6 +109,7 @@ export class AttemptsService {
       questions: picked.map((q) => ({
         questionId: q.id,
         prompt: q.prompt,
+        imageUrl : q.imageUrl ?? null,
         choices: shuffle(q.choices),
         correctChoiceId: q.correctChoiceId,
         points: q.points ?? 1,

@@ -77,10 +77,12 @@ export class PublicController {
     const publicQuestions = (attempt.questions ?? []).map((q: any) => ({
       id: q.questionId,
       prompt: q.prompt,
-      imageUrl : q.imageUrl ?? null,
+      imageUrl : q.imageUrl ,
       choices: q.choices,
       points: q.points ?? 1,
     }));
+
+    console.log("this is returned questions:", publicQuestions);
 
     return {
       session: {
