@@ -33,6 +33,9 @@ export class AttemptQuestion {
   @Prop({ required: true, trim: true, maxlength: 800 })
   prompt!: string;
 
+  @Prop({ required: true, trim: true, maxlength: 800 })
+  imageUrl!: string;
+
   @Prop({ type: [AttemptQuestionChoiceSchema], required: true })
   choices!: AttemptQuestionChoice[];
 

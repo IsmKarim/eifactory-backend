@@ -122,7 +122,7 @@ export class AttemptsService {
       ip: meta?.ip ?? null,
       userAgent: meta?.userAgent ?? null,
     });
-
+    console.log("created attempt:", created);
     return created.toObject();
   }
 
