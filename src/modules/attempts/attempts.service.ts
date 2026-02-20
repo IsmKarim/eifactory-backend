@@ -79,10 +79,11 @@ export class AttemptsService {
     // If exists: ensure it has questions (migration-safe)
     if (existing) {
       if (!existing.questions || existing.questions.length === 0) {
-        const picked = pickRandom(questions, 3);
+        const picked = pickRandom(questions, 5);
         existing.questions = picked.map((q) => ({
           questionId: q.id,
           prompt: q.prompt,
+          imageUrl : q.imageUrl ?? null,
           choices: shuffle(q.choices),
           correctChoiceId: q.correctChoiceId,
           points: q.points ?? 1,
@@ -114,7 +115,7 @@ export class AttemptsService {
       answers: [],
       score: 0,
       correctCount: 0,
-      totalQuestions: 3,
+      totalQuestions: 5,
       questionsVersion: version,
       ip: meta?.ip ?? null,
       userAgent: meta?.userAgent ?? null,

@@ -7,6 +7,7 @@ export type Question = {
   id: string;              // "q1-dell-latitude"
   prompt: string;          // question text
   choices: Choice[];
+  imageUrl?: string;       // optional image to display with question
   correctChoiceId: string; // stored server-side only (admin + scoring)
   points?: number;         // optional, default 1
 };
