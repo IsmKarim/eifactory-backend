@@ -96,7 +96,7 @@ export class AttemptsService {
       return existing.toObject();
     }
 
-    const picked = pickRandom(questions, 3);
+    const picked = pickRandom(questions, 5);
 
     const created = await this.attemptModel.create({
       participantId: new Types.ObjectId(participantId),

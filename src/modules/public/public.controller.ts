@@ -77,6 +77,7 @@ export class PublicController {
     const publicQuestions = (attempt.questions ?? []).map((q: any) => ({
       id: q.questionId,
       prompt: q.prompt,
+      imageUrl : q.imageUrl ?? null,
       choices: q.choices,
       points: q.points ?? 1,
     }));
