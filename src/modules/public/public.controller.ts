@@ -94,6 +94,7 @@ export class PublicController {
       participant: {
         id: String(participant._id),
         username: participant.username,
+        companyName: participant.companyName,
         email: participant.email,
         phone: participant.phone,
       },

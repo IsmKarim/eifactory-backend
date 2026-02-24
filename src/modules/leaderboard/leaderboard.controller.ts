@@ -1,8 +1,9 @@
-import { Controller, Get, Query } from "@nestjs/common";
+import { Controller, Get, Query, UseGuards } from "@nestjs/common";
 import { LeaderboardService } from "./leaderboard.service";
 import { LeaderboardQueryDto } from "./dto/leaderboard-query.dto";
+import { AdminJwtGuard } from "src/common/guards/admin-jwt.guard";
 
-// TODO later: @UseGuards(AdminJwtGuard)
+@UseGuards(AdminJwtGuard)
 @Controller("/admin/leaderboard")
 export class LeaderboardController {
   constructor(private readonly leaderboardService: LeaderboardService) {}

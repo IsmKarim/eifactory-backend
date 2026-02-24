@@ -32,18 +32,19 @@ export class ParticipantsService {
     const email = normalizeEmail(dto.email);
     const username = dto.username.trim();
     const phone = normalizePhone(dto.phone);
+    const companyName = dto.companyName.trim();
 
     if (!email) throw new BadRequestException("Email is required.");
     if (!username) throw new BadRequestException("Username is required.");
     if (!phone) throw new BadRequestException("Phone number is invalid.");
-
+    if (!companyName) throw new BadRequestException("Company name is required.");
     const now = new Date();
 
     const participant = await this.participantModel
       .findOneAndUpdate(
         { email },
         {
-          $set: { username, phone, lastSeenAt: now },
+          $set: { username, phone, lastSeenAt: now , companyName},
           $setOnInsert: { email },
         },
         { upsert: true, new: true, setDefaultsOnInsert: true },

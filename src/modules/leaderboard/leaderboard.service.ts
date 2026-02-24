@@ -21,6 +21,7 @@ export class LeaderboardService {
         ? {
             id: String(a.participantId._id ?? a.participantId),
             username: a.participantId.username,
+            companyName: a.participantId.companyName,
             email: a.participantId.email,
             phone: a.participantId.phone,
           }
@@ -42,7 +43,7 @@ export class LeaderboardService {
       })
       .sort({ score: -1, elapsedMs: 1, submittedAt: 1 })
       .limit(limit)
-      .populate("participantId", "username email phone")
+      .populate("participantId", "username email phone companyName")
       .lean();
 
     return {

@@ -8,6 +8,9 @@ export class Participant {
   @Prop({ required: true, trim: true, minlength: 2, maxlength: 60 })
   username!: string;
 
+  @Prop({  trim: true, maxlength: 200 })
+  companyName!: string;
+
   @Prop({
     required: true,
     unique: true,

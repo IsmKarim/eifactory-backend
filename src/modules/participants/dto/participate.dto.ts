@@ -10,6 +10,10 @@ export class ParticipateDto {
   @MaxLength(120)
   email!: string;
 
+  @IsString()
+  @MaxLength(200)
+  companyName!: string;
+
   // Keep it light: accept +, digits, spaces, hyphens, parentheses
   // We'll normalize it in the service.
   @IsString()
