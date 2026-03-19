@@ -204,7 +204,7 @@ export const QUESTIONS: Question[] =[
       },
       {
         "id": "d",
-        "label": "upport for a maximum of one external display"
+        "label": "Support for a maximum of one external display"
       }
     ],
     "correctChoiceId": "a",
