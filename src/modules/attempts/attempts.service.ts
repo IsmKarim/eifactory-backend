@@ -5,11 +5,11 @@ import { Attempt, AttemptDocument } from "./schemas/attempt.schema";
 import { QuestionsService } from "../questions/questions.service";
 import { AttemptStatus } from "src/common/enums/attempt-status.enums";
 import { SubmitAttemptDto } from "./dto/submt-attempt.dto";
+import { Question } from "../questions/questions.types";
 
 
 function pickRandom<T>(arr: T[], n: number): T[] {
   const copy = [...arr];
-  // Fisher-Yates shuffle
   for (let i = copy.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
     [copy[i], copy[j]] = [copy[j], copy[i]];
@@ -24,6 +24,37 @@ function shuffle<T>(arr: T[]): T[] {
     [copy[i], copy[j]] = [copy[j], copy[i]];
   }
   return copy;
+}
+
+
+function pickQuestionsFromDistinctCategories(
+  questions: Question[],
+  count: number,
+): Question[] {
+  const grouped = new Map<string, Question[]>();
+
+  for (const q of questions) {
+    const category = q.category?.trim();
+
+    if (!category) continue; // skip uncategorized questions
+    if (!grouped.has(category)) grouped.set(category, []);
+    grouped.get(category)!.push(q);
+  }
+
+  const categories = [...grouped.keys()];
+
+  if (categories.length < count) {
+    throw new BadRequestException(
+      `Not enough categories configured. Need at least ${count}, found ${categories.length}.`,
+    );
+  }
+
+  const selectedCategories = pickRandom(categories, count);
+
+  return selectedCategories.map((category) => {
+    const categoryQuestions = grouped.get(category)!;
+    return pickRandom(categoryQuestions, 1)[0];
+  });
 }
 
 @Injectable()
@@ -79,7 +110,7 @@ export class AttemptsService {
     // If exists: ensure it has questions (migration-safe)
     if (existing) {
       if (!existing.questions || existing.questions.length === 0) {
-        const picked = pickRandom(questions, 5);
+        const picked = pickQuestionsFromDistinctCategories(questions, 5);
         console.log("picked questions:", picked);
         existing.questions = picked.map((q) => ({
           questionId: q.id,
@@ -97,7 +128,7 @@ export class AttemptsService {
       return existing.toObject();
     }
 
-    const picked = pickRandom(questions, 5);
+    const picked = pickQuestionsFromDistinctCategories(questions, 5);
     console.log("picked questions:", picked);
     const created = await this.attemptModel.create({
       participantId: new Types.ObjectId(participantId),

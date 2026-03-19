@@ -2,131 +2,265 @@ import { Question } from "./questions.types";
 
 export const QUESTIONS_VERSION = "2026-01-22";
 
-export const QUESTIONS: Question[] = [
+export const QUESTIONS: Question[] =[
   {
     "id": "q1",
-    "prompt": "Dell Pro Education devices are designed for real student life. Which option best captures what makes them special for K–12?",
-    "imageUrl" : "https://res.cloudinary.com/dkv2uecce/image/upload/v1771548850/Screenshot_2026-02-20_005145_mlvfwk.png",
+    "imageUrl" : "https://res.cloudinary.com/dkv2uecce/image/upload/v1773961813/webinar/IMAGE_9_qarv3q.jpg",
+    "prompt": "Which key feature of the Dell UltraSharp 52\" Thunderbolt Hub Monitor – U5226KW is most critical for simplifying a modern AI‑PC desk setup?",
     "choices": [
       {
         "id": "a",
-        "label": "They’re kid-tough Windows and Chrome devices with features like rubberized edges, spill-resistant keyboards, and easy serviceability so learning doesn’t stop after the first drop or spill*"
+        "label": "Thunderbolt hub with up to 140W power delivery and single‑cable connectivity for laptop, power, data and multiple displays"
       },
       {
         "id": "b",
-        "label": "They’re just consumer laptops with a new sticker on the lid"
+        "label": "Support for only one external USB device"
       },
       {
         "id": "c",
-        "label": "They’re gaming rigs repurposed from the local esports arena"
+        "label": "Requirement for a separate power brick for every connected peripheral"
       },
       {
         "id": "d",
-        "label": "They’re budget devices with no education-specific features"
+        "label": "Built‑in speakers with fixed volume levels"
       }
     ],
     "correctChoiceId": "a",
-    "points": 1
+    "points": 1,
+    "category": "New Dell displays"
   },
   {
     "id": "q2",
-    "prompt": "A school wants to turn ordinary desks into mini learning hubs. How do Dell displays and client peripherals help you tell that story?",
-    "imageUrl" : "https://res.cloudinary.com/dkv2uecce/image/upload/v1771548851/Screenshot_2026-02-20_005250_jnfiut.png",
+    "imageUrl" : "https://res.cloudinary.com/dkv2uecce/image/upload/v1773961812/webinar/IMAGE_8_nkmins.jpg",
+    "prompt": "What is a standout feature of the latest Dell Pro / Premier wireless keyboards and mice portfolio?",
     "choices": [
       {
         "id": "a",
-        "label": "By offering monitors, docks, headsets, keyboards, and mice that create comfortable, collaborative, and accessible learning spaces for students and teachers"
+        "label": "Up to 48 months of battery life on select wireless keyboard and mouse combos, reducing the need for frequent battery changes"
       },
       {
         "id": "b",
-        "label": "They’re mainly designed for Saturday movie marathons at home"
+        "label": "They only support Bluetooth connectivity"
       },
       {
         "id": "c",
-        "label": "They’re only available if the school buys a full data center"
+        "label": "Keys cannot be used for collaboration shortcuts"
       },
       {
         "id": "d",
-        "label": "They can only be used with nonDell devices‑Dell devices"
+        "label": "They only work when connected via a proprietary Dell port"
       }
     ],
     "correctChoiceId": "a",
-    "points": 1
+    "points": 1,
+    "category": "New‑gen keyboards"
   },
   {
     "id": "q3",
-    "prompt": "Think about what happens when 1,000 student laptops hit “update” week. Why is Dell ProSupport / ProSupport Suite for PCs such a hero in education?",
-    "imageUrl" :"https://res.cloudinary.com/dkv2uecce/image/upload/v1771548856/Screenshot_2026-02-20_005310_klhty0.png",
+    "imageUrl" : "https://res.cloudinary.com/dkv2uecce/image/upload/v1773961812/webinar/IMAGE_7_wdgumk.jpg",
+    "prompt": "Which key feature of the Dell Pro Dock WD25TB4 best supports a clean, productive desk setup?",
     "choices": [
       {
         "id": "a",
-        "label": "It gives schools 24x7 access to experts plus proactive, telemetry-driven monitoring that can spot and fix issues before they knock students and teachers offline"
+        "label": "Single‑cable Thunderbolt 4 connection delivering power, data, and video to multiple displays, plus plenty of downstream ports for peripherals"
       },
       {
         "id": "b",
-        "label": "It just covers the occasional coffee spill and nothing else"
+        "label": "Supports only one external display at a time"
       },
       {
         "id": "c",
-        "label": "It only runs from 9–5 in one time zone"
+        "label": "Requires separate power adapters for each connected device"
       },
       {
         "id": "d",
-        "label": "It works best… on nonDell PCs‑Dell PCs"
+        "label": "Only works when the laptop lid is closed"
       }
     ],
     "correctChoiceId": "a",
-    "points": 1
+    "points": 1,
+    "category": "Docks"
   },
   {
     "id": "q4",
-    "prompt": "A district wants the latest devices without a big upfront bill every refresh cycle. What’s the “superpower” of Dell APEX PC as a Service for education?",
-    "imageUrl" :"https://res.cloudinary.com/dkv2uecce/image/upload/v1771548856/Screenshot_2026-02-20_005328_lesq6x.png",
+    "imageUrl" : "https://res.cloudinary.com/dkv2uecce/image/upload/v1773961813/webinar/IMAGE_10_vd94zj.jpg",
+    "prompt": "What is the core value of combining Dell Display and Peripheral Manager (DDPM) with Dell Device Management Console (DDMC)?",
     "choices": [
       {
         "id": "a",
-        "label": "It bundles devices, lifecycle services like ProDeploy and ProSupport, and financing into a predictable monthly subscription with no upfront investment, making refresh feel more like a streaming service than a hardware project"
+        "label": "DDPM gives end users a single app to customize Dell displays and peripherals at their desk, while DDMC lets IT centrally manage and update fleets of Dell Pro Smart Docks, displays and peripherals from the cloud"
       },
       {
         "id": "b",
-        "label": "One giant, one-time hardware invoice and that’s it"
+        "label": "Two separate tools that each manage only a single device type"
       },
       {
         "id": "c",
-        "label": "It ships devices only—schools must source deployment and support elsewhere"
+        "label": "DDMC replaces all need for DDPM at the desk"
       },
       {
         "id": "d",
-        "label": "It’s just a short-term laptop rental for exam week"
+        "label": "DDPM is only a firmware updater with no user controls"
       }
     ],
     "correctChoiceId": "a",
-    "points": 1
+    "points": 1,
+    "category": "DDPM & DDMC"
   },
   {
     "id": "q5",
-    "prompt": "Classrooms are not exactly gentle on tech. Which statement best explains why purpose-built education devices are so important?",
-    "imageUrl" :"https://res.cloudinary.com/dkv2uecce/image/upload/v1771548855/Screenshot_2026-02-20_005342_fxhwr7.png",
+    "imageUrl" : "https://res.cloudinary.com/dkv2uecce/image/upload/v1773961812/webinar/IMAGE_3_ps4vay.jpg",
+    "prompt": "What is a signature feature of the latest Dell EcoLoop Pro / Plus carrying cases (e.g., EcoLoop Pro 13–14 Plus Backpack and Briefcase)?",
     "choices": [
       {
         "id": "a",
-        "label": "Dell education laptops are tested to pass multiple MIL‑STD 810H durability tests—surviving drops, spills, and thousands of hinge cycles—so lessons keep going even when devices take real‑world classroom abuse"
+        "label": "Use of recycled and ocean‑bound materials, with dedicated compartments sized for modern Dell Pro/Latitude devices and accessories"
       },
       {
         "id": "b",
-        "label": "Students only use devices for a few minutes a day, so durability doesn’t really matter"
+        "label": "Built only from virgin plastics for maximum rigidity"
       },
       {
         "id": "c",
-        "label": "They’re designed to stay on a shelf in the IT office as “backup” devices"
+        "label": "Designed purely for documents, not laptops"
       },
       {
         "id": "d",
-        "label": "They’re only meant for teachers’ desks, not student backpacks"
+        "label": "Compatible only with 17\" gaming laptops"
       }
     ],
     "correctChoiceId": "a",
-    "points": 1
+    "points": 1,
+    "category": "Carry cases"
+  },
+  {
+    "id": "q6",
+    "imageUrl" : "https://res.cloudinary.com/dkv2uecce/image/upload/v1773961812/webinar/IMAGE_5_yps2p6.jpg",
+    "prompt": "Which key feature of the Dell UltraSharp 52\" Thunderbolt Hub Monitor – U5226KW is most critical for simplifying a modern AI‑PC desk setup?",
+    "choices": [
+      {
+        "id": "a",
+        "label": "Thunderbolt hub with up to 140W power delivery and single‑cable connectivity for laptop, power, data and multiple displays"
+      },
+      {
+        "id": "b",
+        "label": "Built‑in speakers with fixed volume levels"
+      },
+      {
+        "id": "c",
+        "label": "Support for only one external USB device"
+      },
+      {
+        "id": "d",
+        "label": "Requirement for a separate power brick for every connected peripheral"
+      }
+    ],
+    "correctChoiceId": "a",
+    "points": 1,
+    "category": "New Dell displays"
+  },
+  {
+    "id": "q7",
+    "imageUrl" : "https://res.cloudinary.com/dkv2uecce/image/upload/v1773961810/webinar/IMAGE_4_hlshwa.jpg",
+    "prompt": "What is a standout feature of the latest Dell Pro / Premier keyboards and mice when used with Dell Display and Peripheral Manager (DDPM)?",
+    "choices": [
+      {
+        "id": "a",
+        "label": "App‑aware customization that lets users program collaboration keys and mouse buttons (e.g., Teams/Zoom controls, copy/paste) per application"
+      },
+      {
+        "id": "b",
+        "label": "Keys and buttons are locked to default OS shortcuts"
+      },
+      {
+        "id": "c",
+        "label": "Only basic typing and pointing—no custom actions"
+      },
+      {
+        "id": "d",
+        "label": "They must be wired to enable any customization"
+      }
+    ],
+    "correctChoiceId": "a",
+    "points": 1,
+    "category": "New‑gen keyboards"
+  },
+  {
+    "id": "q8",
+    "imageUrl" : "https://res.cloudinary.com/dkv2uecce/image/upload/v1773961811/webinar/IMAGE_2_hwwemf.jpg",
+    "prompt": "Which key capability differentiates the new Dell Pro Dock WD25TB4 in DNCP?",
+    "choices": [
+      {
+        "id": "a",
+        "label": "Policy‑driven, remote firmware updates and configuration through Dell Device Management Console (DDMC), with local control via DDPM on the host PC"
+      },
+      {
+        "id": "b",
+        "label": "Video output only, with no charging support"
+      },
+      {
+        "id": "c",
+        "label": "Fixed firmware that cannot be updated"
+      },
+      {
+        "id": "d",
+        "label": "upport for a maximum of one external display"
+      }
+    ],
+    "correctChoiceId": "a",
+    "points": 1,
+    "category": "Docks"
+  },
+  {
+    "id": "q9",
+    "imageUrl" : "https://res.cloudinary.com/dkv2uecce/image/upload/v1773961811/webinar/IMAGE_6_jivb3m.jpg",
+    "prompt": "What is the core value of combining Dell Display and Peripheral Manager (DDPM) with Dell Device Management Console (DDMC)?",
+    "choices": [
+      {
+        "id": "a",
+        "label": "DDPM gives end users a single app to customize Dell displays and peripherals at their desk, while DDMC lets IT centrally manage and update fleets of Dell Pro Smart Docks, displays and peripherals from the cloud"
+      },
+      {
+        "id": "b",
+        "label": "Two separate tools that each manage only a single device type"
+      },
+      {
+        "id": "c",
+        "label": "DDMC replaces all need for DDPM at the desk"
+      },
+      {
+        "id": "d",
+        "label": "DDPM is only a firmware updater with no user controls"
+      }
+    ],
+    "correctChoiceId": "a",
+    "points": 1,
+    "category": "DDPM & DDMC"
+  },
+  {
+    "id": "q10",
+    "imageUrl" : "https://res.cloudinary.com/dkv2uecce/image/upload/v1773961809/webinar/IMAGE_1_igvebx.jpg",
+    "prompt": "What is a signature feature of the latest Dell EcoLoop Pro / Plus carrying cases (e.g., EcoLoop Pro 13–14 Plus Backpack and Briefcase)?",
+    "choices": [
+      {
+        "id": "a",
+        "label": "Use of recycled and ocean‑bound materials, with dedicated compartments sized for modern Dell Pro/Latitude devices and accessories"
+      },
+      {
+        "id": "b",
+        "label": "Built only from virgin plastics for maximum rigidity"
+      },
+      {
+        "id": "c",
+        "label": "Designed purely for documents, not laptops"
+      },
+      {
+        "id": "d",
+        "label": "Compatible only with 17\" gaming laptops"
+      }
+    ],
+    "correctChoiceId": "a",
+    "points": 1,
+    "category": "Carry cases"
   }
 ]
-

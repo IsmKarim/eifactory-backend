@@ -10,4 +10,5 @@ export type Question = {
   imageUrl: string;       // optional image to display with question
   correctChoiceId: string; // stored server-side only (admin + scoring)
   points?: number;         // optional, default 1
+  category?: string;       // optional, for grouping questions in the UI
 };
