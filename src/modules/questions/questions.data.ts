@@ -5,262 +5,618 @@ export const QUESTIONS_VERSION = "2026-01-22";
 export const QUESTIONS: Question[] =[
   {
     "id": "q1",
-    "imageUrl" : "https://res.cloudinary.com/dkv2uecce/image/upload/v1773961813/webinar/IMAGE_9_qarv3q.jpg",
-    "prompt": "Which key feature of the Dell UltraSharp 52\" Thunderbolt Hub Monitor – U5226KW is most critical for simplifying a modern AI‑PC desk setup?",
+    "prompt": "what level of power- pass through is delivered by the new Dell 7-1 USB-C Travel Hub - DA326 support to a Dell laptop",
     "choices": [
       {
         "id": "a",
-        "label": "Thunderbolt hub with up to 140W power delivery and single‑cable connectivity for laptop, power, data and multiple displays"
+        "label": "up to 130W"
       },
       {
         "id": "b",
-        "label": "Support for only one external USB device"
+        "label": "up to 60W"
       },
       {
         "id": "c",
-        "label": "Requirement for a separate power brick for every connected peripheral"
+        "label": "up to 75W"
       },
       {
         "id": "d",
-        "label": "Built‑in speakers with fixed volume levels"
+        "label": "Up to 90W"
       }
     ],
     "correctChoiceId": "a",
     "points": 1,
-    "category": "New Dell displays"
+    "category": "Adapter and Carry case",
+    "imageUrl": "https://res.cloudinary.com/dkv2uecce/image/upload/v1773961813/webinar/IMAGE_9_qarv3q.jpg"
   },
   {
     "id": "q2",
-    "imageUrl" : "https://res.cloudinary.com/dkv2uecce/image/upload/v1773961812/webinar/IMAGE_8_nkmins.jpg",
-    "prompt": "What is a standout feature of the latest Dell Pro / Premier wireless keyboards and mice portfolio?",
+    "prompt": "How many monitors can be supported by Dell 7-1 USB-C Travel Hub - DA326",
     "choices": [
       {
         "id": "a",
-        "label": "Up to 48 months of battery life on select wireless keyboard and mouse combos, reducing the need for frequent battery changes"
+        "label": "2"
       },
       {
         "id": "b",
-        "label": "They only support Bluetooth connectivity"
+        "label": "1"
       },
       {
         "id": "c",
-        "label": "Keys cannot be used for collaboration shortcuts"
+        "label": "3"
       },
       {
         "id": "d",
-        "label": "They only work when connected via a proprietary Dell port"
+        "label": "No Display support"
       }
     ],
     "correctChoiceId": "a",
     "points": 1,
-    "category": "New‑gen keyboards"
+    "category": "Adapter and Carry case",
+    "imageUrl": "https://res.cloudinary.com/dkv2uecce/image/upload/v1773961813/webinar/IMAGE_9_qarv3q.jpg"
   },
   {
     "id": "q3",
-    "imageUrl" : "https://res.cloudinary.com/dkv2uecce/image/upload/v1773961812/webinar/IMAGE_7_wdgumk.jpg",
-    "prompt": "Which key feature of the Dell Pro Dock WD25TB4 best supports a clean, productive desk setup?",
+    "prompt": "in 2026 we introduced waterproof coated zippers, on which models?",
     "choices": [
       {
         "id": "a",
-        "label": "Single‑cable Thunderbolt 4 connection delivering power, data, and video to multiple displays, plus plenty of downstream ports for peripherals"
+        "label": "CP5626, CC5626, CV5626, CV5426"
       },
       {
         "id": "b",
-        "label": "Supports only one external display at a time"
+        "label": "we dont have"
       },
       {
         "id": "c",
-        "label": "Requires separate power adapters for each connected device"
+        "label": "we dont need"
       },
       {
         "id": "d",
-        "label": "Only works when the laptop lid is closed"
+        "label": "no idea"
       }
     ],
     "correctChoiceId": "a",
     "points": 1,
-    "category": "Docks"
+    "category": "Adapter and Carry case",
+    "imageUrl": "https://res.cloudinary.com/dkv2uecce/image/upload/v1773961813/webinar/IMAGE_9_qarv3q.jpg"
   },
   {
     "id": "q4",
-    "imageUrl" : "https://res.cloudinary.com/dkv2uecce/image/upload/v1773961813/webinar/IMAGE_10_vd94zj.jpg",
-    "prompt": "What is the core value of combining Dell Display and Peripheral Manager (DDPM) with Dell Device Management Console (DDMC)?",
+    "prompt": "Backpack has Magnetic front pocket and Magnetic side pocket , Lockable zipper pullers , Lumbar-Hidden pocket and Bluetooth® earbuds storage on the on shoulder strap ? in Jan 2026 was enlarged to 26 Liters",
     "choices": [
       {
         "id": "a",
-        "label": "DDPM gives end users a single app to customize Dell displays and peripherals at their desk, while DDMC lets IT centrally manage and update fleets of Dell Pro Smart Docks, displays and peripherals from the cloud"
+        "label": "CP7625"
       },
       {
         "id": "b",
-        "label": "Two separate tools that each manage only a single device type"
+        "label": "CP5426G"
       },
       {
         "id": "c",
-        "label": "DDMC replaces all need for DDPM at the desk"
+        "label": "CP5724S"
       },
       {
         "id": "d",
-        "label": "DDPM is only a firmware updater with no user controls"
+        "label": "CP3724"
       }
     ],
     "correctChoiceId": "a",
     "points": 1,
-    "category": "DDPM & DDMC"
+    "category": "Adapter and Carry case",
+    "imageUrl": "https://res.cloudinary.com/dkv2uecce/image/upload/v1773961812/webinar/IMAGE_8_nkmins.jpg"
   },
   {
     "id": "q5",
-    "imageUrl" : "https://res.cloudinary.com/dkv2uecce/image/upload/v1773961812/webinar/IMAGE_3_ps4vay.jpg",
-    "prompt": "What is a signature feature of the latest Dell EcoLoop Pro / Plus carrying cases (e.g., EcoLoop Pro 13–14 Plus Backpack and Briefcase)?",
+    "prompt": "What's the storage size of Dell Combo Flash Drive?",
     "choices": [
       {
         "id": "a",
-        "label": "Use of recycled and ocean‑bound materials, with dedicated compartments sized for modern Dell Pro/Latitude devices and accessories"
+        "label": "64, 128 or 256 GB"
       },
       {
         "id": "b",
-        "label": "Built only from virgin plastics for maximum rigidity"
+        "label": "32, 64 or 128 GB"
       },
       {
         "id": "c",
-        "label": "Designed purely for documents, not laptops"
+        "label": "128 or 256 GB"
       },
       {
         "id": "d",
-        "label": "Compatible only with 17\" gaming laptops"
+        "label": "64 or 128 GB"
       }
     ],
     "correctChoiceId": "a",
     "points": 1,
-    "category": "Carry cases"
+    "category": "Adapter and Carry case",
+    "imageUrl": "https://res.cloudinary.com/dkv2uecce/image/upload/v1773961812/webinar/IMAGE_8_nkmins.jpg"
   },
   {
     "id": "q6",
-    "imageUrl" : "https://res.cloudinary.com/dkv2uecce/image/upload/v1773961812/webinar/IMAGE_5_yps2p6.jpg",
-    "prompt": "Which key feature of the Dell UltraSharp 52\" Thunderbolt Hub Monitor – U5226KW is most critical for simplifying a modern AI‑PC desk setup?",
+    "prompt": "Which webcam should you propose for everyday use, with a minimum of 1080P (Full HD) resolution?",
     "choices": [
       {
         "id": "a",
-        "label": "Thunderbolt hub with up to 140W power delivery and single‑cable connectivity for laptop, power, data and multiple displays"
+        "label": "Dell Webcam - WB3023"
       },
       {
         "id": "b",
-        "label": "Built‑in speakers with fixed volume levels"
+        "label": "Dell UltraSharp Webcam - WB7022"
       },
       {
         "id": "c",
-        "label": "Support for only one external USB device"
+        "label": "Loigtech Brio 505"
       },
       {
         "id": "d",
-        "label": "Requirement for a separate power brick for every connected peripheral"
+        "label": "Dell Pro Webcam - WB5023"
       }
     ],
     "correctChoiceId": "a",
     "points": 1,
-    "category": "New Dell displays"
+    "category": "Displays",
+    "imageUrl": "https://res.cloudinary.com/dkv2uecce/image/upload/v1773961812/webinar/IMAGE_7_wdgumk.jpg"
   },
   {
     "id": "q7",
-    "imageUrl" : "https://res.cloudinary.com/dkv2uecce/image/upload/v1773961810/webinar/IMAGE_4_hlshwa.jpg",
-    "prompt": "What is a standout feature of the latest Dell Pro / Premier keyboards and mice when used with Dell Display and Peripheral Manager (DDPM)?",
+    "prompt": "What new feature has recently been added to the Dell UltraSharp Webcam via a firmware updater tool?",
     "choices": [
       {
         "id": "a",
-        "label": "App‑aware customization that lets users program collaboration keys and mouse buttons (e.g., Teams/Zoom controls, copy/paste) per application"
+        "label": "Microsoft Presence Sensing"
       },
       {
         "id": "b",
-        "label": "Keys and buttons are locked to default OS shortcuts"
+        "label": "4K Resolution"
       },
       {
         "id": "c",
-        "label": "Only basic typing and pointing—no custom actions"
+        "label": "AI Auto-Framing"
       },
       {
         "id": "d",
-        "label": "They must be wired to enable any customization"
+        "label": "Digital-Overlap HDR"
       }
     ],
     "correctChoiceId": "a",
     "points": 1,
-    "category": "New‑gen keyboards"
+    "category": "Displays",
+    "imageUrl": "https://res.cloudinary.com/dkv2uecce/image/upload/v1773961812/webinar/IMAGE_7_wdgumk.jpg"
   },
   {
     "id": "q8",
-    "imageUrl" : "https://res.cloudinary.com/dkv2uecce/image/upload/v1773961811/webinar/IMAGE_2_hwwemf.jpg",
-    "prompt": "Which key capability differentiates the new Dell Pro Dock WD25TB4 in DNCP?",
+    "prompt": "What is the new name of the UtraSharp series monitors",
     "choices": [
       {
         "id": "a",
-        "label": "Policy‑driven, remote firmware updates and configuration through Dell Device Management Console (DDMC), with local control via DDPM on the host PC"
+        "label": "UltraSharp"
       },
       {
         "id": "b",
-        "label": "Video output only, with no charging support"
+        "label": "Dell Pro"
       },
       {
         "id": "c",
-        "label": "Fixed firmware that cannot be updated"
+        "label": "Dell Pro Plus"
       },
       {
         "id": "d",
-        "label": "Support for a maximum of one external display"
+        "label": "Dell Pro Premium"
       }
     ],
     "correctChoiceId": "a",
     "points": 1,
-    "category": "Docks"
+    "category": "Displays",
+    "imageUrl": "https://res.cloudinary.com/dkv2uecce/image/upload/v1773961813/webinar/IMAGE_10_vd94zj.jpg"
   },
   {
     "id": "q9",
-    "imageUrl" : "https://res.cloudinary.com/dkv2uecce/image/upload/v1773961811/webinar/IMAGE_6_jivb3m.jpg",
-    "prompt": "What is the core value of combining Dell Display and Peripheral Manager (DDPM) with Dell Device Management Console (DDMC)?",
+    "prompt": "What part of the system us responsible for running the AI Background Blur and AI Autoframing camera features on the new conferencing monitors that we launched on the 3rd of March?",
     "choices": [
       {
         "id": "a",
-        "label": "DDPM gives end users a single app to customize Dell displays and peripherals at their desk, while DDMC lets IT centrally manage and update fleets of Dell Pro Smart Docks, displays and peripherals from the cloud"
+        "label": "The Camera itself runs the AI features"
       },
       {
         "id": "b",
-        "label": "Two separate tools that each manage only a single device type"
+        "label": "CPU"
       },
       {
         "id": "c",
-        "label": "DDMC replaces all need for DDPM at the desk"
+        "label": "PC Memory"
       },
       {
         "id": "d",
-        "label": "DDPM is only a firmware updater with no user controls"
+        "label": "Graphics card"
       }
     ],
     "correctChoiceId": "a",
     "points": 1,
-    "category": "DDPM & DDMC"
+    "category": "Displays",
+    "imageUrl": "https://res.cloudinary.com/dkv2uecce/image/upload/v1773961813/webinar/IMAGE_10_vd94zj.jpg"
   },
   {
     "id": "q10",
-    "imageUrl" : "https://res.cloudinary.com/dkv2uecce/image/upload/v1773961809/webinar/IMAGE_1_igvebx.jpg",
-    "prompt": "What is a signature feature of the latest Dell EcoLoop Pro / Plus carrying cases (e.g., EcoLoop Pro 13–14 Plus Backpack and Briefcase)?",
+    "prompt": "Which model, that we recently launched is the: World’s First Commercial DisplayHDR True Black 500 Anti-Glare Low-Reflectance QD-OLED monitor",
     "choices": [
       {
         "id": "a",
-        "label": "Use of recycled and ocean‑bound materials, with dedicated compartments sized for modern Dell Pro/Latitude devices and accessories"
+        "label": "Dell UltraSharp 32 4K U3226Q"
       },
       {
         "id": "b",
-        "label": "Built only from virgin plastics for maximum rigidity"
+        "label": "Dell Pro P 34 USB-C Hub Conferencing Monitor - P3426WEB"
       },
       {
         "id": "c",
-        "label": "Designed purely for documents, not laptops"
+        "label": "Dell UltraSharp 52 Thunderbolt Hub Monitor - U5226KW"
       },
       {
         "id": "d",
-        "label": "Compatible only with 17\" gaming laptops"
+        "label": "Dell Pro 27 QHD Monitor - E2726DS"
       }
     ],
     "correctChoiceId": "a",
     "points": 1,
-    "category": "Carry cases"
+    "category": "Displays",
+    "imageUrl": "https://res.cloudinary.com/dkv2uecce/image/upload/v1773961813/webinar/IMAGE_10_vd94zj.jpg"
+  },
+  {
+    "id": "q11",
+    "prompt": "Which large format monitors have USB-C connection?",
+    "choices": [
+      {
+        "id": "a",
+        "label": "P5525QC, P6524QT, P7525QT"
+      },
+      {
+        "id": "b",
+        "label": "P5525QC"
+      },
+      {
+        "id": "c",
+        "label": "P6524QT"
+      },
+      {
+        "id": "d",
+        "label": "P7525QT"
+      }
+    ],
+    "correctChoiceId": "a",
+    "points": 1,
+    "category": "Displays",
+    "imageUrl": "https://res.cloudinary.com/dkv2uecce/image/upload/v1773961812/webinar/IMAGE_7_wdgumk.jpg"
+  },
+  {
+    "id": "q12",
+    "prompt": "Which touch technology do we use in our large format monitors?",
+    "choices": [
+      {
+        "id": "a",
+        "label": "Infra Red (InGlass)"
+      },
+      {
+        "id": "b",
+        "label": "Capacitative"
+      },
+      {
+        "id": "c",
+        "label": "Resistive"
+      },
+      {
+        "id": "d",
+        "label": "We do not have touch option on LFMs."
+      }
+    ],
+    "correctChoiceId": "a",
+    "points": 1,
+    "category": "Displays",
+    "imageUrl": "https://res.cloudinary.com/dkv2uecce/image/upload/v1773961812/webinar/IMAGE_7_wdgumk.jpg"
+  },
+  {
+    "id": "q13",
+    "prompt": "Which one is true about Monitor Arms?",
+    "choices": [
+      {
+        "id": "a",
+        "label": "All of the above"
+      },
+      {
+        "id": "b",
+        "label": "Monitor Arms allow you to position the monitor where you are more comfortable viewing"
+      },
+      {
+        "id": "c",
+        "label": "Monitor Arms help you lean back into chair and work with correct posture"
+      },
+      {
+        "id": "d",
+        "label": "Monitor Arms help to eliminate desktop cable clutter"
+      }
+    ],
+    "correctChoiceId": "a",
+    "points": 1,
+    "category": "Displays",
+    "imageUrl": "https://res.cloudinary.com/dkv2uecce/image/upload/v1773961812/webinar/IMAGE_7_wdgumk.jpg"
+  },
+  {
+    "id": "q14",
+    "prompt": "Which displays commercial line-up support daisy chaining?",
+    "choices": [
+      {
+        "id": "a",
+        "label": "Dell Pro Plus and Ultrasharp"
+      },
+      {
+        "id": "b",
+        "label": "Dell Pro displays"
+      },
+      {
+        "id": "c",
+        "label": "Dell Pro Plus displays"
+      },
+      {
+        "id": "d",
+        "label": "All of the monitors"
+      }
+    ],
+    "correctChoiceId": "a",
+    "points": 1,
+    "category": "Displays",
+    "imageUrl": "https://res.cloudinary.com/dkv2uecce/image/upload/v1773961813/webinar/IMAGE_10_vd94zj.jpg"
+  },
+  {
+    "id": "q15",
+    "prompt": "Configure, monitor and update FW on Dell Pro Smart Docks without requiring PC connection. This innovative smart feature is supported by:",
+    "choices": [
+      {
+        "id": "a",
+        "label": "SD25, SD25TB4, SD25TB5"
+      },
+      {
+        "id": "b",
+        "label": "WD25, WD25Z, WD25TB4, WD25TB5"
+      },
+      {
+        "id": "c",
+        "label": "SD25TB4, SD25TB5,  WD25TB4, WD25TB5"
+      },
+      {
+        "id": "d",
+        "label": "SD25TB5,  WD25TB5"
+      }
+    ],
+    "correctChoiceId": "a",
+    "points": 1,
+    "category": "Docks + DDPM & DDMC",
+    "imageUrl": "https://res.cloudinary.com/dkv2uecce/image/upload/v1773961812/webinar/IMAGE_3_ps4vay.jpg"
+  },
+  {
+    "id": "q16",
+    "prompt": "Featuring extended power range, Dell Pro Thunderbolt 5 Smart Dock SD25TB5 and Dell Pro Thunderbolt 5 Dock WD25TB5 support power delivery up to:",
+    "choices": [
+      {
+        "id": "a",
+        "label": "300W"
+      },
+      {
+        "id": "b",
+        "label": "100W"
+      },
+      {
+        "id": "c",
+        "label": "130W"
+      },
+      {
+        "id": "d",
+        "label": "210W"
+      }
+    ],
+    "correctChoiceId": "a",
+    "points": 1,
+    "category": "Docks + DDPM & DDMC",
+    "imageUrl": "https://res.cloudinary.com/dkv2uecce/image/upload/v1773961812/webinar/IMAGE_3_ps4vay.jpg"
+  },
+  {
+    "id": "q17",
+    "prompt": "4 simultaneous video ports are available even on entry model WD25 for better productivity and multiple connection types for more flexibility. Is this correct?",
+    "choices": [
+      {
+        "id": "a",
+        "label": "Yes"
+      },
+      {
+        "id": "b",
+        "label": "No"
+      }
+    ],
+    "correctChoiceId": "a",
+    "points": 1,
+    "category": "Docks + DDPM & DDMC",
+    "imageUrl": "https://res.cloudinary.com/dkv2uecce/image/upload/v1773961812/webinar/IMAGE_5_yps2p6.jpg"
+  },
+  {
+    "id": "q18",
+    "prompt": "Which of these is NOT a feature of the new Dell Pro Wired Collaboration Keyboard - KB525C?",
+    "choices": [
+      {
+        "id": "a",
+        "label": "Bluetooth Connectivity"
+      },
+      {
+        "id": "b",
+        "label": "Silent Typing"
+      },
+      {
+        "id": "c",
+        "label": "Collaboration Keys"
+      },
+      {
+        "id": "d",
+        "label": "Choice of USB-C or USB-A connectivity"
+      }
+    ],
+    "correctChoiceId": "a",
+    "points": 1,
+    "category": "New Gen Keyboards and Mice",
+    "imageUrl": "https://res.cloudinary.com/dkv2uecce/image/upload/v1773961812/webinar/IMAGE_5_yps2p6.jpg"
+  },
+  {
+    "id": "q19",
+    "prompt": "How can users easily avoid open-plan office distractions with silent typing?",
+    "choices": [
+      {
+        "id": "a",
+        "label": "Upgrade to KB525C or KM555"
+      },
+      {
+        "id": "b",
+        "label": "Try typing more quietly"
+      },
+      {
+        "id": "c",
+        "label": "Use a noise-cancelling headset"
+      },
+      {
+        "id": "d",
+        "label": "Work from home"
+      }
+    ],
+    "correctChoiceId": "a",
+    "points": 1,
+    "category": "New Gen Keyboards and Mice",
+    "imageUrl": "https://res.cloudinary.com/dkv2uecce/image/upload/v1773961812/webinar/IMAGE_5_yps2p6.jpg"
+  },
+  {
+    "id": "q20",
+    "prompt": "The new Dell Pro 5 Keyboard and Mouse - KM526 has an industry-leading battery life of…?",
+    "choices": [
+      {
+        "id": "a",
+        "label": "4 years"
+      },
+      {
+        "id": "b",
+        "label": "4 weeks"
+      },
+      {
+        "id": "c",
+        "label": "4 days"
+      },
+      {
+        "id": "d",
+        "label": "4 hours"
+      }
+    ],
+    "correctChoiceId": "a",
+    "points": 1,
+    "category": "New Gen Keyboards and Mice",
+    "imageUrl": "https://res.cloudinary.com/dkv2uecce/image/upload/v1773961810/webinar/IMAGE_4_hlshwa.jpg"
+  },
+  {
+    "id": "q21",
+    "prompt": "Which feature is available across Dell headset portfolio?",
+    "choices": [
+      {
+        "id": "a",
+        "label": "AI Noise Cancelation"
+      },
+      {
+        "id": "b",
+        "label": "Neural audio link"
+      },
+      {
+        "id": "c",
+        "label": "Dolby Atmos"
+      },
+      {
+        "id": "d",
+        "label": "Bluetooth connectivity"
+      }
+    ],
+    "correctChoiceId": "a",
+    "points": 1,
+    "category": "New Gen Keyboards and Mice",
+    "imageUrl": "https://res.cloudinary.com/dkv2uecce/image/upload/v1773961810/webinar/IMAGE_4_hlshwa.jpg"
+  },
+  {
+    "id": "q22",
+    "prompt": "Which feature is shared between WL7024 headset and EB525 Earbuds?",
+    "choices": [
+      {
+        "id": "a",
+        "label": "Adaptive ANC"
+      },
+      {
+        "id": "b",
+        "label": "80hrs battery life"
+      },
+      {
+        "id": "c",
+        "label": "4 different size changeable ear tips"
+      },
+      {
+        "id": "d",
+        "label": "Charging stand in packaging"
+      }
+    ],
+    "correctChoiceId": "a",
+    "points": 1,
+    "category": "New Gen Keyboards and Mice",
+    "imageUrl": "https://res.cloudinary.com/dkv2uecce/image/upload/v1773961810/webinar/IMAGE_4_hlshwa.jpg"
+  },
+  {
+    "id": "q23",
+    "prompt": "Which new ressource on Dell support page helps customers with part replacement on selected systems?",
+    "choices": [
+      {
+        "id": "a",
+        "label": "3D Guide"
+      },
+      {
+        "id": "b",
+        "label": "3D Assistant"
+      },
+      {
+        "id": "c",
+        "label": "3D Video"
+      },
+      {
+        "id": "d",
+        "label": "3D Manual"
+      }
+    ],
+    "correctChoiceId": "a",
+    "points": 1,
+    "category": "Sales & Marketing Resources",
+    "imageUrl": "https://res.cloudinary.com/dkv2uecce/image/upload/v1773961811/webinar/IMAGE_6_jivb3m.jpg"
+  },
+  {
+    "id": "q24",
+    "prompt": "What is a new feature on the Dell AR Assist app?",
+    "choices": [
+      {
+        "id": "a",
+        "label": "Service tag Scanner"
+      },
+      {
+        "id": "b",
+        "label": "Virtual Assistant"
+      },
+      {
+        "id": "c",
+        "label": "Auto-Order"
+      },
+      {
+        "id": "d",
+        "label": "Log a ticket"
+      }
+    ],
+    "correctChoiceId": "a",
+    "points": 1,
+    "category": "Sales & Marketing Resources",
+    "imageUrl": "https://res.cloudinary.com/dkv2uecce/image/upload/v1773961811/webinar/IMAGE_6_jivb3m.jpg"
   }
 ]
