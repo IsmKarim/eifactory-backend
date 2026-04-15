@@ -1,85 +1,115 @@
-import { BadRequestException, Injectable, NotFoundException } from "@nestjs/common";
-import { InjectModel } from "@nestjs/mongoose";
-import { Model, Types } from "mongoose";
-import { ParticipateDto } from "./dto/participate.dto";
-import { Participant, ParticipantDocument } from "./schemas/participant.schema";
-
-function normalizeEmail(email: string) {
-  return email.trim().toLowerCase();
-}
-
-function normalizePhone(raw: string) {
-  const trimmed = raw.trim();
-  if (!trimmed) return "";
-
-  const hasPlus = trimmed.startsWith("+");
-  const digitsOnly = trimmed.replace(/[^\d]/g, ""); 
-
-  const normalized = (hasPlus ? "+" : "") + digitsOnly;
-  const digitCount = digitsOnly.length;
-  if (digitCount < 7 || digitCount > 15) return "";
-  return normalized;
-}
+import {
+  ConflictException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model, Types } from 'mongoose';
+import { EventsService } from '../events/events.service';
+import {
+  Participant,
+  ParticipantDocument,
+} from './schemas/participant.schema';
+import { RegisterParticipantDto } from './dto/participate.dto';
 
 @Injectable()
 export class ParticipantsService {
   constructor(
     @InjectModel(Participant.name)
     private readonly participantModel: Model<ParticipantDocument>,
+    private readonly eventsService: EventsService,
   ) {}
 
-  async upsertByEmail(dto: ParticipateDto) {
-    const email = normalizeEmail(dto.email);
-    const username = dto.username.trim();
-    const phone = normalizePhone(dto.phone);
-    const companyName = dto.companyName.trim();
+  // ── Public: self-registration ────────────────────────────────────────────────
 
-    if (!email) throw new BadRequestException("Email is required.");
-    if (!username) throw new BadRequestException("Username is required.");
-    if (!phone) throw new BadRequestException("Phone number is invalid.");
-    if (!companyName) throw new BadRequestException("Company name is required.");
-    const now = new Date();
+  async register(
+    eventId: string,
+    dto: RegisterParticipantDto,
+  ): Promise<ParticipantDocument> {
+    // Ensure event exists and is active
+    const event = await this.eventsService.findById(eventId);
+    if (event.status !== 'active') {
+      throw new ConflictException('Registration is not open for this event');
+    }
 
-    const participant = await this.participantModel
-      .findOneAndUpdate(
-        { email },
-        {
-          $set: { username, phone, lastSeenAt: now , companyName},
-          $setOnInsert: { email },
-        },
-        { upsert: true, new: true, setDefaultsOnInsert: true },
-      )
-      .lean();
+    const existing = await this.participantModel.findOne({
+      eventId: new Types.ObjectId(eventId),
+      email: dto.email.toLowerCase(),
+    });
 
+    if (existing) {
+      throw new ConflictException(
+        'This email is already registered for this event',
+      );
+    }
+
+    return this.participantModel.create({
+      ...dto,
+      eventId: new Types.ObjectId(eventId),
+    });
+  }
+
+  // ── Internal: look up a participant by email for attempt validation ──────────
+
+  async findByEmailAndEvent(
+    email: string,
+    eventId: string,
+  ): Promise<ParticipantDocument> {
+    const participant = await this.participantModel.findOne({
+      email: email.toLowerCase(),
+      eventId: new Types.ObjectId(eventId),
+    });
+    if (!participant) {
+      throw new NotFoundException(
+        'Participant not found — please register first',
+      );
+    }
     return participant;
   }
 
-  async findByEmail(email: string) {
-    const normalized = normalizeEmail(email);
-    return this.participantModel.findOne({ email: normalized }).lean();
-  }
-
-  async findById(id: string) {
-    if (!Types.ObjectId.isValid(id)) throw new BadRequestException("Invalid participant id.");
-    const participant = await this.participantModel.findById(id).lean();
-    if (!participant) throw new NotFoundException("Participant not found.");
+  async findById(participantId: string): Promise<ParticipantDocument> {
+    const participant = await this.participantModel.findById(participantId);
+    if (!participant) throw new NotFoundException('Participant not found');
     return participant;
   }
 
-  async list({ limit = 50, skip = 0 }: { limit?: number; skip?: number } = {}) {
-    const safeLimit = Math.min(Math.max(limit, 1), 200);
-    const safeSkip = Math.max(skip, 0);
+  // ── Internal: mark a session win on the participant (called by WinnersService)
 
-    const [items, total] = await Promise.all([
-      this.participantModel
-        .find()
-        .sort({ updatedAt: -1 })
-        .skip(safeSkip)
-        .limit(safeLimit)
-        .lean(),
-      this.participantModel.countDocuments(),
-    ]);
+  async addWonSession(
+    participantId: string,
+    sessionId: string,
+  ): Promise<void> {
+    await this.participantModel.findByIdAndUpdate(participantId, {
+      $addToSet: { wonSessionIds: new Types.ObjectId(sessionId) },
+    });
+  }
 
-    return { total, items, limit: safeLimit, skip: safeSkip };
+  // ── Admin: list all participants for an event ────────────────────────────────
+
+  async findAllByEvent(eventId: string): Promise<ParticipantDocument[]> {
+    await this.eventsService.findById(eventId);
+    return this.participantModel
+      .find({ eventId: new Types.ObjectId(eventId) })
+      .sort({ createdAt: -1 });
+  }
+
+  async countByEvent(eventId: string): Promise<number> {
+    return this.participantModel.countDocuments({
+      eventId: new Types.ObjectId(eventId),
+    });
+  }
+
+  // ── Internal: check if participant has won a previous session in this event ──
+
+  async hasWonInEvent(
+    participantId: string,
+    eventId: string,
+  ): Promise<boolean> {
+    const participant = await this.participantModel.findOne({
+      _id: new Types.ObjectId(participantId),
+      eventId: new Types.ObjectId(eventId),
+      wonSessionIds: { $exists: true, $not: { $size: 0 } },
+    });
+    return !!participant;
   }
 }

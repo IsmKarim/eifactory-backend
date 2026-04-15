@@ -1,22 +1,40 @@
-import { Controller, Get, Param, Query } from "@nestjs/common";
-import { ParticipantsService } from "./participants.service";
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Post,
+  UseGuards,
+} from '@nestjs/common';
+import { AdminJwtGuard } from '../../common/guards/admin-jwt.guard';
+import { ParticipantsService } from './participants.service';
+import { RegisterParticipantDto } from './dto/participate.dto';
 
-@Controller("/admin/participants")
+@Controller('events/:eventId/participants')
 export class ParticipantsController {
   constructor(private readonly participantsService: ParticipantsService) {}
 
-  // TODO: add @UseGuards(AdminJwtGuard)
+  // ── Public: self-registration ────────────────────────────────────────────────
 
-  @Get()
-  async list(@Query("limit") limit?: string, @Query("skip") skip?: string) {
-    return this.participantsService.list({
-      limit: limit ? Number(limit) : 50,
-      skip: skip ? Number(skip) : 0,
-    });
+  @Post('register')
+  register(
+    @Param('eventId') eventId: string,
+    @Body() dto: RegisterParticipantDto,
+  ) {
+    return this.participantsService.register(eventId, dto);
   }
 
-  @Get(":id")
-  async getOne(@Param("id") id: string) {
-    return this.participantsService.findById(id);
+  // ── Admin ────────────────────────────────────────────────────────────────────
+
+  @Get()
+  @UseGuards(AdminJwtGuard)
+  findAll(@Param('eventId') eventId: string) {
+    return this.participantsService.findAllByEvent(eventId);
+  }
+
+  @Get('count')
+  @UseGuards(AdminJwtGuard)
+  count(@Param('eventId') eventId: string) {
+    return this.participantsService.countByEvent(eventId);
   }
 }
