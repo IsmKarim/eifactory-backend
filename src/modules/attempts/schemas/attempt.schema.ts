@@ -1,6 +1,6 @@
-import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
-import { HydratedDocument, Types } from "mongoose";
-import { AttemptStatus } from "src/common/enums/attempt-status.enums";
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { HydratedDocument, Types } from 'mongoose';
+import { AttemptStatus } from 'src/common/enums/attempt-status.enums';
 
 export type AttemptDocument = HydratedDocument<Attempt>;
 
@@ -22,8 +22,9 @@ export class AttemptQuestionChoice {
   @Prop({ required: true, trim: true, maxlength: 300 })
   label!: string;
 }
-export const AttemptQuestionChoiceSchema =
-  SchemaFactory.createForClass(AttemptQuestionChoice);
+export const AttemptQuestionChoiceSchema = SchemaFactory.createForClass(
+  AttemptQuestionChoice,
+);
 
 @Schema({ _id: false })
 export class AttemptQuestion {
@@ -49,14 +50,20 @@ export class AttemptQuestion {
   @Prop({ type: Number, default: 1, min: 0 })
   points!: number;
 }
-export const AttemptQuestionSchema = SchemaFactory.createForClass(AttemptQuestion);
+export const AttemptQuestionSchema =
+  SchemaFactory.createForClass(AttemptQuestion);
 
 @Schema({ timestamps: true })
 export class Attempt {
-  @Prop({ type: Types.ObjectId, ref: "Participant", required: true, index: true })
+  @Prop({
+    type: Types.ObjectId,
+    ref: 'Participant',
+    required: true,
+    index: true,
+  })
   participantId!: Types.ObjectId;
 
-  @Prop({ type: Types.ObjectId, ref: "Session", required: true, index: true })
+  @Prop({ type: Types.ObjectId, ref: 'Session', required: true, index: true })
   sessionId!: Types.ObjectId;
 
   @Prop({

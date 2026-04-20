@@ -1,22 +1,20 @@
-import {
-  IsEmail,
-  IsNotEmpty,
-  IsPhoneNumber,
-  IsString,
-} from 'class-validator';
+import { IsEmail, IsNotEmpty, IsOptional, IsPhoneNumber, IsString } from 'class-validator';
 
-export class RegisterParticipantDto {
+export class ParticipateDto {
   @IsEmail()
   email!: string;
 
   @IsString()
   @IsNotEmpty()
-  name!: string;
+  username!: string;
 
+  @IsOptional()
   @IsString()
-  @IsNotEmpty()
-  company!: string;
+  companyName?: string;
 
   @IsPhoneNumber()
   phone!: string;
 }
+
+// Alias used by the event-scoped registration endpoint
+export { ParticipateDto as RegisterParticipantDto };

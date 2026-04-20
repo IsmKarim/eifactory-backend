@@ -1,16 +1,9 @@
-import {
-  ConflictException,
-  Injectable,
-  NotFoundException,
-} from '@nestjs/common';
+import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
 import { EventsService } from '../events/events.service';
-import {
-  Participant,
-  ParticipantDocument,
-} from './schemas/participant.schema';
-import { RegisterParticipantDto } from './dto/participate.dto';
+import { Participant, ParticipantDocument } from './schemas/participant.schema';
+import { ParticipateDto, RegisterParticipantDto } from './dto/participate.dto';
 
 @Injectable()
 export class ParticipantsService {
@@ -20,49 +13,58 @@ export class ParticipantsService {
     private readonly eventsService: EventsService,
   ) {}
 
-  // ── Public: self-registration ────────────────────────────────────────────────
+  // ── Public: self-registration (event-scoped) ─────────────────────────────────
 
-  async register(
-    eventId: string,
-    dto: RegisterParticipantDto,
-  ): Promise<ParticipantDocument> {
-    // Ensure event exists and is active
+  async register(eventId: string, dto: RegisterParticipantDto): Promise<ParticipantDocument> {
     const event = await this.eventsService.findById(eventId);
     if (event.status !== 'active') {
       throw new ConflictException('Registration is not open for this event');
     }
 
     const existing = await this.participantModel.findOne({
-      eventId: new Types.ObjectId(eventId),
       email: dto.email.toLowerCase(),
     });
 
     if (existing) {
-      throw new ConflictException(
-        'This email is already registered for this event',
-      );
+      throw new ConflictException('This email is already registered');
     }
 
     return this.participantModel.create({
-      ...dto,
-      eventId: new Types.ObjectId(eventId),
+      username: dto.username,
+      companyName: dto.companyName ?? '',
+      email: dto.email.toLowerCase(),
+      phone: dto.phone,
     });
   }
 
-  // ── Internal: look up a participant by email for attempt validation ──────────
+  // ── Public: upsert by email (used by /public/participate) ────────────────────
 
-  async findByEmailAndEvent(
-    email: string,
-    eventId: string,
-  ): Promise<ParticipantDocument> {
+  async upsertByEmail(dto: ParticipateDto): Promise<ParticipantDocument> {
+    const email = dto.email.toLowerCase();
+    const participant = await this.participantModel.findOneAndUpdate(
+      { email },
+      {
+        $set: {
+          username: dto.username,
+          companyName: dto.companyName ?? '',
+          phone: dto.phone,
+          lastSeenAt: new Date(),
+        },
+        $setOnInsert: { email },
+      },
+      { upsert: true, new: true },
+    );
+    return participant!;
+  }
+
+  // ── Internal ─────────────────────────────────────────────────────────────────
+
+  async findByEmailAndEvent(email: string, _eventId: string): Promise<ParticipantDocument> {
     const participant = await this.participantModel.findOne({
       email: email.toLowerCase(),
-      eventId: new Types.ObjectId(eventId),
     });
     if (!participant) {
-      throw new NotFoundException(
-        'Participant not found — please register first',
-      );
+      throw new NotFoundException('Participant not found — please register first');
     }
     return participant;
   }
@@ -73,43 +75,25 @@ export class ParticipantsService {
     return participant;
   }
 
-  // ── Internal: mark a session win on the participant (called by WinnersService)
-
-  async addWonSession(
-    participantId: string,
-    sessionId: string,
-  ): Promise<void> {
+  async addWonSession(participantId: string, sessionId: string): Promise<void> {
     await this.participantModel.findByIdAndUpdate(participantId, {
       $addToSet: { wonSessionIds: new Types.ObjectId(sessionId) },
     });
   }
 
-  // ── Admin: list all participants for an event ────────────────────────────────
+  // ── Admin ────────────────────────────────────────────────────────────────────
 
   async findAllByEvent(eventId: string): Promise<ParticipantDocument[]> {
     await this.eventsService.findById(eventId);
-    return this.participantModel
-      .find({ eventId: new Types.ObjectId(eventId) })
-      .sort({ createdAt: -1 });
+    return this.participantModel.find().sort({ createdAt: -1 });
   }
 
   async countByEvent(eventId: string): Promise<number> {
-    return this.participantModel.countDocuments({
-      eventId: new Types.ObjectId(eventId),
-    });
+    await this.eventsService.findById(eventId);
+    return this.participantModel.countDocuments();
   }
 
-  // ── Internal: check if participant has won a previous session in this event ──
-
-  async hasWonInEvent(
-    participantId: string,
-    eventId: string,
-  ): Promise<boolean> {
-    const participant = await this.participantModel.findOne({
-      _id: new Types.ObjectId(participantId),
-      eventId: new Types.ObjectId(eventId),
-      wonSessionIds: { $exists: true, $not: { $size: 0 } },
-    });
-    return !!participant;
+  async hasWonInEvent(_participantId: string, _eventId: string): Promise<boolean> {
+    return false;
   }
 }

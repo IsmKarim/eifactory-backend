@@ -10,6 +10,8 @@ import {
 } from '@nestjs/common';
 import { AdminJwtGuard } from '../../common/guards/admin-jwt.guard';
 import { QuestionsService } from './questions.service';
+import { CreateQuestionDto } from './dto/create-question.dto';
+import { UpdateQuestionDto } from './dto/update-question.dto';
 
 @Controller('events/:eventId/questions')
 export class QuestionsController {

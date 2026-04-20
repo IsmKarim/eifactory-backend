@@ -9,8 +9,8 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { AdminJwtGuard } from '../../common/guards/admin-jwt.guard';
-import { CreateEventDto } from './dto/create-event.dto';
-import { UpdateEventDto } from './dto/update-event.dto';
+import { CreateEventDto } from './dto/createEvent.dto';
+import { UpdateEventDto } from './dto/updateEvent.dto';
 import { EventsService } from './events.service';
 
 @Controller('events')

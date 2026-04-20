@@ -6,7 +6,7 @@ import {
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { CreateEventDto } from './dto/createEvent.dto';
-import { EventDocument } from './event.schema';
+import { Event, EventDocument } from './event.schema';
 import { UpdateEventDto } from './dto/updateEvent.dto';
 
 @Injectable()
