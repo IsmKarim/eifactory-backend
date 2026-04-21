@@ -1,6 +1,5 @@
 import { Type } from 'class-transformer';
 import {
-  IsArray,
   IsDateString,
   IsEnum,
   IsHexColor,
@@ -58,19 +57,6 @@ class BrandingDto {
   organizerName?: string;
 }
 
-class ProductDto {
-  @IsString()
-  @IsNotEmpty()
-  name!: string;
-
-  @IsOptional()
-  @IsUrl()
-  photoUrl?: string;
-
-  @IsUrl()
-  link!: string;
-}
-
 export class CreateEventDto {
   @IsString()
   @IsNotEmpty()
@@ -108,9 +94,4 @@ export class CreateEventDto {
   @Type(() => BrandingDto)
   branding?: BrandingDto;
 
-  @IsOptional()
-  @IsArray()
-  @ValidateNested({ each: true })
-  @Type(() => ProductDto)
-  products?: ProductDto[];
 }

@@ -1,6 +1,5 @@
 import { Type } from 'class-transformer';
 import {
-  IsArray,
   IsDateString,
   IsEnum,
   IsHexColor,
@@ -33,12 +32,6 @@ class UpdateBrandingDto {
   @IsOptional() @IsString() organizerName?: string;
 }
 
-class UpdateProductDto {
-  @IsOptional() @IsString() @IsNotEmpty() name?: string;
-  @IsOptional() @IsUrl() photoUrl?: string;
-  @IsOptional() @IsUrl() link?: string;
-}
-
 export class UpdateEventDto {
   @IsOptional() @IsString() @IsNotEmpty() name?: string;
 
@@ -56,10 +49,4 @@ export class UpdateEventDto {
   @IsOptional() @ValidateNested() @Type(() => UpdateLandingDto) landing?: UpdateLandingDto;
   @IsOptional() @ValidateNested() @Type(() => UpdateQuizConfigDto) quiz?: UpdateQuizConfigDto;
   @IsOptional() @ValidateNested() @Type(() => UpdateBrandingDto) branding?: UpdateBrandingDto;
-
-  @IsOptional()
-  @IsArray()
-  @ValidateNested({ each: true })
-  @Type(() => UpdateProductDto)
-  products?: UpdateProductDto[];
 }

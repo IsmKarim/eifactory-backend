@@ -12,6 +12,8 @@ import { AttemptsModule } from './modules/attempts/attempts.module';
 import { QuestionsModule } from './modules/questions/questions.module';
 import { LeaderboardModule } from './modules/leaderboard/leaderboard.module';
 import { EventsModule } from './modules/events/events.module';
+import { ProductsModule } from './modules/products/products.module';
+import { CloudinaryModule } from './cloudinary/cloudinary.module';
 
 @Module({
   imports: [
@@ -21,6 +23,7 @@ import { EventsModule } from './modules/events/events.module';
       cache: true,
     }),
     DatabaseModule,
+    CloudinaryModule,
     SessionsModule,
     AdminAuthModule,
     ParticipantsModule,
@@ -29,6 +32,7 @@ import { EventsModule } from './modules/events/events.module';
     QuestionsModule,
     LeaderboardModule,
     EventsModule,
+    ProductsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

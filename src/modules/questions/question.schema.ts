@@ -28,6 +28,12 @@ export class Question {
 
   @Prop({ type: Boolean, default: true })
   isActive!: boolean;
+
+  @Prop({ type: String, default: null })
+  imageUrl!: string | null;
+
+  @Prop({ type: String, default: null })
+  imagePublicId!: string | null;
 }
 
 export const QuestionSchema = SchemaFactory.createForClass(Question);

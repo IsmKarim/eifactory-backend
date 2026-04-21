@@ -1,5 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { HydratedDocument } from 'mongoose';
+import { HydratedDocument, Types } from 'mongoose';
 
 export type EventDocument = HydratedDocument<Event>;
 
@@ -72,23 +72,9 @@ export class Event {
     organizerName?: string;
   };
 
-  // ── Products (CTA cards on landing page) ────────────────────────────────────
-  @Prop({
-    type: [
-      {
-        name: { type: String, required: true, trim: true },
-        photoUrl: { type: String },
-        link: { type: String, required: true },
-        _id: false,
-      },
-    ],
-    default: [],
-  })
-  products!: {
-    name: string;
-    photoUrl?: string;
-    link: string;
-  }[];
+  // ── Products (CTA cards — references to standalone Product documents) ────────
+  @Prop({ type: [{ type: Types.ObjectId, ref: 'Product' }], default: [] })
+  productIds!: Types.ObjectId[];
 }
 
 export const EventSchema = SchemaFactory.createForClass(Event);

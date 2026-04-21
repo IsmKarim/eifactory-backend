@@ -4,15 +4,17 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import { Model, Types } from 'mongoose';
 import { CreateEventDto } from './dto/createEvent.dto';
 import { Event, EventDocument } from './event.schema';
 import { UpdateEventDto } from './dto/updateEvent.dto';
+import { ProductsService } from '../products/products.service';
 
 @Injectable()
 export class EventsService {
   constructor(
     @InjectModel(Event.name) private readonly eventModel: Model<EventDocument>,
+    private readonly productsService: ProductsService,
   ) {}
 
   async create(dto: CreateEventDto): Promise<EventDocument> {
@@ -60,5 +62,31 @@ export class EventsService {
   async remove(id: string): Promise<void> {
     const result = await this.eventModel.findByIdAndDelete(id);
     if (!result) throw new NotFoundException(`Event not found`);
+  }
+
+  async linkProduct(eventId: string, productId: string): Promise<EventDocument> {
+    await this.productsService.findById(productId);
+    const event = await this.eventModel.findByIdAndUpdate(
+      eventId,
+      { $addToSet: { productIds: new Types.ObjectId(productId) } },
+      { new: true },
+    );
+    if (!event) throw new NotFoundException(`Event not found`);
+    return event;
+  }
+
+  async unlinkProduct(eventId: string, productId: string): Promise<EventDocument> {
+    const event = await this.eventModel.findByIdAndUpdate(
+      eventId,
+      { $pull: { productIds: new Types.ObjectId(productId) } },
+      { new: true },
+    );
+    if (!event) throw new NotFoundException(`Event not found`);
+    return event;
+  }
+
+  async getProducts(eventId: string) {
+    const event = await this.findById(eventId);
+    return this.productsService.findByIds(event.productIds);
   }
 }

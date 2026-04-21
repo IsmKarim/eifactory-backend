@@ -49,5 +49,10 @@ export const SessionSchema = SchemaFactory.createForClass(Session);
 
 SessionSchema.index({ eventId: 1, slug: 1 }, { unique: true });
 SessionSchema.index({ eventId: 1, active: 1, dayNumber: 1 });
+// Enforce at most one active session per event at the DB level
+SessionSchema.index(
+  { eventId: 1, active: 1 },
+  { unique: true, partialFilterExpression: { active: true } },
+);
 SessionSchema.index({ startsAt: 1 });
 SessionSchema.index({ endsAt: 1 });

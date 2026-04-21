@@ -1,5 +1,6 @@
 import {
   BadRequestException,
+  ConflictException,
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
@@ -94,20 +95,26 @@ export class SessionsService {
       return existing.toObject();
     }
 
-    const created = await this.sessionModel.create({
-      eventId: eventObjId,
-      name,
-      slug,
-      dayNumber,
-      note: dto.note ?? null,
-      active: true,
-      startsAt: now,
-      endsAt: null,
-      winnerAttemptIds: [],
-      winnersDeclaredAt: null,
-    });
-
-    return created.toObject();
+    try {
+      const created = await this.sessionModel.create({
+        eventId: eventObjId,
+        name,
+        slug,
+        dayNumber,
+        note: dto.note ?? null,
+        active: true,
+        startsAt: now,
+        endsAt: null,
+        winnerAttemptIds: [],
+        winnersDeclaredAt: null,
+      });
+      return created.toObject();
+    } catch (err: any) {
+      if (err?.code === 11000) {
+        throw new ConflictException('Another session is already active for this event.');
+      }
+      throw err;
+    }
   }
 
   async endActiveSession(eventId: string) {
