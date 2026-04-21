@@ -2,6 +2,7 @@ import {
   Body,
   ConflictException,
   Controller,
+  Param,
   Post,
   Req,
 } from "@nestjs/common";
@@ -36,9 +37,13 @@ export class PublicController {
    * - if already submitted in this session => alreadyParticipated=true
    * - else create/resume the attempt and return attempt info
    */
-  @Post("participate")
-  async participate(@Body() dto: ParticipateDto, @Req() req: Request) {
-    const activeSession = await this.sessionsService.getActiveSession();
+  @Post("events/:eventId/participate")
+  async participate(
+    @Param("eventId") eventId: string,
+    @Body() dto: ParticipateDto,
+    @Req() req: Request,
+  ) {
+    const activeSession = await this.sessionsService.getActiveSession(eventId);
     if (!activeSession) {
       throw new ConflictException("No active session right now.");
     }

@@ -1,7 +1,7 @@
-import { Body, Controller, Get, Param, Post } from "@nestjs/common";
-import { CreateSessionDto } from "./dto/createSession.dto";
-import { DeclareWinnersDto } from "./dto/declare-winners.dto";
-import { SessionsService } from "./session.service";
+import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { CreateSessionDto } from './dto/createSession.dto';
+import { DeclareWinnersDto } from './dto/declare-winners.dto';
+import { SessionsService } from './session.service';
 
 @Controller()
 export class SessionsController {
@@ -11,9 +11,9 @@ export class SessionsController {
   // Public (user side)
   // ---------------------------
 
-  @Get("/public/session/active")
-  async active() {
-    return this.sessionsService.getActiveSession();
+  @Get('/public/events/:eventId/session/active')
+  async active(@Param('eventId') eventId: string) {
+    return this.sessionsService.getActiveSession(eventId);
   }
 
   // ---------------------------
@@ -21,28 +21,28 @@ export class SessionsController {
   // TODO: add @UseGuards(AdminJwtGuard)
   // ---------------------------
 
-  @Get("/admin/sessions")
-  async list() {
-    return this.sessionsService.listSessions();
+  @Get('/admin/events/:eventId/sessions')
+  async list(@Param('eventId') eventId: string) {
+    return this.sessionsService.listSessions(eventId);
   }
 
-  @Get("/admin/sessions/:id")
-  async getOne(@Param("id") id: string) {
+  @Get('/admin/sessions/:id')
+  async getOne(@Param('id') id: string) {
     return this.sessionsService.getSessionById(id);
   }
 
-  @Post("/admin/sessions/start")
-  async start(@Body() dto: CreateSessionDto) {
-    return this.sessionsService.startSession(dto);
+  @Post('/admin/events/:eventId/sessions/start')
+  async start(@Param('eventId') eventId: string, @Body() dto: CreateSessionDto) {
+    return this.sessionsService.startSession(eventId, dto);
   }
 
-  @Post("/admin/sessions/end")
-  async endActive() {
-    return this.sessionsService.endActiveSession();
+  @Post('/admin/events/:eventId/sessions/end')
+  async endActive(@Param('eventId') eventId: string) {
+    return this.sessionsService.endActiveSession(eventId);
   }
 
-  @Post("/admin/sessions/:id/winners")
-  async winners(@Param("id") id: string, @Body() dto: DeclareWinnersDto) {
+  @Post('/admin/sessions/:id/winners')
+  async winners(@Param('id') id: string, @Body() dto: DeclareWinnersDto) {
     return this.sessionsService.declareWinners(id, dto);
   }
 }

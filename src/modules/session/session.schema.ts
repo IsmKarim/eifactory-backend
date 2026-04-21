@@ -1,22 +1,24 @@
-import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
-import { HydratedDocument, Types } from "mongoose";
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { HydratedDocument, Types } from 'mongoose';
 
 export type SessionDocument = HydratedDocument<Session>;
 
 @Schema({ timestamps: true })
 export class Session {
+  @Prop({ type: Types.ObjectId, ref: 'Event', required: true, index: true })
+  eventId!: Types.ObjectId;
+
   @Prop({ required: true, trim: true, maxlength: 80 })
   name!: string; // "Day 1", "2026-01-20", "Dell Booth - Day 2"
 
   @Prop({
     required: true,
-    unique: true,
     index: true,
     trim: true,
     lowercase: true,
     maxlength: 80,
   })
-  slug!: string; // "day-1", "2026-01-20"
+  slug!: string; // "day-1", "2026-01-20" — unique per event via compound index
 
   @Prop({ required: true, min: 1, index: true })
   dayNumber!: number;
@@ -24,7 +26,6 @@ export class Session {
   @Prop({ default: false, index: true })
   active!: boolean;
 
-  
   @Prop({ type: Date, default: null })
   startsAt!: Date | null;
 
@@ -35,7 +36,7 @@ export class Session {
   note?: string | null;
 
   @Prop({
-    type: [{ type: Types.ObjectId, ref: "Attempt" }],
+    type: [{ type: Types.ObjectId, ref: 'Attempt' }],
     default: [],
   })
   winnerAttemptIds!: Types.ObjectId[];
@@ -46,6 +47,7 @@ export class Session {
 
 export const SessionSchema = SchemaFactory.createForClass(Session);
 
-SessionSchema.index({ active: 1, dayNumber: 1 });
+SessionSchema.index({ eventId: 1, slug: 1 }, { unique: true });
+SessionSchema.index({ eventId: 1, active: 1, dayNumber: 1 });
 SessionSchema.index({ startsAt: 1 });
 SessionSchema.index({ endsAt: 1 });
