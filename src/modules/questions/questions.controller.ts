@@ -20,6 +20,9 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { AdminJwtGuard } from '../../common/guards/admin-jwt.guard';
+import { RolesGuard } from '../../common/guards/roles.guard';
+import { Roles } from '../../common/decorators/roles.decorator';
+import { Role } from '../../common/enums/role.enum';
 import { CloudinaryService } from '../../cloudinary/cloudinary.service';
 import { QuestionsService } from './questions.service';
 import { CreateQuestionDto } from './dto/create-question.dto';
@@ -37,7 +40,8 @@ export class QuestionsController {
   // ── Admin routes ─────────────────────────────────────────────────────────────
 
   @Post()
-  @UseGuards(AdminJwtGuard)
+  @UseGuards(AdminJwtGuard, RolesGuard)
+  @Roles(Role.ADMIN)
   @ApiBearerAuth('admin-jwt')
   @ApiOperation({ summary: 'Create a question for an event' })
   create(
@@ -48,7 +52,8 @@ export class QuestionsController {
   }
 
   @Post('bulk')
-  @UseGuards(AdminJwtGuard)
+  @UseGuards(AdminJwtGuard, RolesGuard)
+  @Roles(Role.ADMIN)
   @ApiBearerAuth('admin-jwt')
   @ApiOperation({ summary: 'Bulk-create questions for an event' })
   @ApiBody({ type: [CreateQuestionDto] })
@@ -60,7 +65,8 @@ export class QuestionsController {
   }
 
   @Patch(':questionId')
-  @UseGuards(AdminJwtGuard)
+  @UseGuards(AdminJwtGuard, RolesGuard)
+  @Roles(Role.ADMIN)
   @ApiBearerAuth('admin-jwt')
   @ApiOperation({ summary: 'Update a question' })
   @ApiParam({ name: 'questionId', description: 'Question ID' })
@@ -73,7 +79,8 @@ export class QuestionsController {
   }
 
   @Delete(':questionId')
-  @UseGuards(AdminJwtGuard)
+  @UseGuards(AdminJwtGuard, RolesGuard)
+  @Roles(Role.ADMIN)
   @ApiBearerAuth('admin-jwt')
   @ApiOperation({ summary: 'Delete a question' })
   @ApiParam({ name: 'questionId', description: 'Question ID' })
@@ -85,7 +92,8 @@ export class QuestionsController {
   }
 
   @Post(':questionId/image')
-  @UseGuards(AdminJwtGuard)
+  @UseGuards(AdminJwtGuard, RolesGuard)
+  @Roles(Role.ADMIN)
   @ApiBearerAuth('admin-jwt')
   @ApiOperation({ summary: 'Upload an image for a question (max 5 MB)' })
   @ApiParam({ name: 'questionId', description: 'Question ID' })
@@ -114,7 +122,8 @@ export class QuestionsController {
   // ── Admin: full list with answers (for management view) ──────────────────────
 
   @Get()
-  @UseGuards(AdminJwtGuard)
+  @UseGuards(AdminJwtGuard, RolesGuard)
+  @Roles(Role.ADMIN)
   @ApiBearerAuth('admin-jwt')
   @ApiOperation({ summary: 'List all questions for an event (admin — includes correct answers)' })
   findAll(@Param('eventId') eventId: string) {

@@ -7,6 +7,9 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { AdminJwtGuard } from '../../common/guards/admin-jwt.guard';
+import { RolesGuard } from '../../common/guards/roles.guard';
+import { Roles } from '../../common/decorators/roles.decorator';
+import { Role } from '../../common/enums/role.enum';
 import { ParticipantsService } from './participants.service';
 import { RegisterParticipantDto } from './dto/participate.dto';
 
@@ -27,13 +30,15 @@ export class ParticipantsController {
   // ── Admin ────────────────────────────────────────────────────────────────────
 
   @Get()
-  @UseGuards(AdminJwtGuard)
+  @UseGuards(AdminJwtGuard, RolesGuard)
+  @Roles(Role.ADMIN, Role.HOST)
   findAll(@Param('eventId') eventId: string) {
     return this.participantsService.findAllByEvent(eventId);
   }
 
   @Get('count')
-  @UseGuards(AdminJwtGuard)
+  @UseGuards(AdminJwtGuard, RolesGuard)
+  @Roles(Role.ADMIN, Role.HOST)
   count(@Param('eventId') eventId: string) {
     return this.participantsService.countByEvent(eventId);
   }

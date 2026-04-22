@@ -22,6 +22,9 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { AdminJwtGuard } from '../../common/guards/admin-jwt.guard';
+import { RolesGuard } from '../../common/guards/roles.guard';
+import { Roles } from '../../common/decorators/roles.decorator';
+import { Role } from '../../common/enums/role.enum';
 import { CloudinaryService } from '../../cloudinary/cloudinary.service';
 import { ProductsService } from './products.service';
 import { CreateProductDto } from './dto/create-product.dto';
@@ -36,7 +39,8 @@ export class ProductsController {
   ) {}
 
   @Post()
-  @UseGuards(AdminJwtGuard)
+  @UseGuards(AdminJwtGuard, RolesGuard)
+  @Roles(Role.ADMIN)
   @ApiBearerAuth('admin-jwt')
   @ApiOperation({ summary: 'Create a product (optional photo upload, max 5 MB)' })
   @ApiConsumes('multipart/form-data')
@@ -80,7 +84,8 @@ export class ProductsController {
   }
 
   @Patch(':id')
-  @UseGuards(AdminJwtGuard)
+  @UseGuards(AdminJwtGuard, RolesGuard)
+  @Roles(Role.ADMIN)
   @ApiBearerAuth('admin-jwt')
   @ApiOperation({ summary: 'Update a product (optional photo upload, max 5 MB)' })
   @ApiParam({ name: 'id', description: 'Product ID' })
@@ -110,7 +115,8 @@ export class ProductsController {
   }
 
   @Delete(':id')
-  @UseGuards(AdminJwtGuard)
+  @UseGuards(AdminJwtGuard, RolesGuard)
+  @Roles(Role.ADMIN)
   @ApiBearerAuth('admin-jwt')
   @ApiOperation({ summary: 'Delete a product' })
   @ApiParam({ name: 'id', description: 'Product ID' })

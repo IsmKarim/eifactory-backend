@@ -15,6 +15,9 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { AdminJwtGuard } from '../../common/guards/admin-jwt.guard';
+import { RolesGuard } from '../../common/guards/roles.guard';
+import { Roles } from '../../common/decorators/roles.decorator';
+import { Role } from '../../common/enums/role.enum';
 import { CreateEventDto } from './dto/createEvent.dto';
 import { UpdateEventDto } from './dto/updateEvent.dto';
 import { EventsService } from './events.service';
@@ -27,7 +30,8 @@ export class EventsController {
   // ── Admin routes ────────────────────────────────────────────────────────────
 
   @Post()
-  @UseGuards(AdminJwtGuard)
+  @UseGuards(AdminJwtGuard, RolesGuard)
+  @Roles(Role.ADMIN)
   @ApiBearerAuth('admin-jwt')
   @ApiOperation({ summary: 'Create an event' })
   create(@Body() dto: CreateEventDto) {
@@ -35,7 +39,8 @@ export class EventsController {
   }
 
   @Patch(':id')
-  @UseGuards(AdminJwtGuard)
+  @UseGuards(AdminJwtGuard, RolesGuard)
+  @Roles(Role.ADMIN)
   @ApiBearerAuth('admin-jwt')
   @ApiOperation({ summary: 'Update an event' })
   @ApiParam({ name: 'id', description: 'Event ID' })
@@ -44,7 +49,8 @@ export class EventsController {
   }
 
   @Delete(':id')
-  @UseGuards(AdminJwtGuard)
+  @UseGuards(AdminJwtGuard, RolesGuard)
+  @Roles(Role.ADMIN)
   @ApiBearerAuth('admin-jwt')
   @ApiOperation({ summary: 'Delete an event' })
   @ApiParam({ name: 'id', description: 'Event ID' })
@@ -53,7 +59,8 @@ export class EventsController {
   }
 
   @Post(':id/products/:productId')
-  @UseGuards(AdminJwtGuard)
+  @UseGuards(AdminJwtGuard, RolesGuard)
+  @Roles(Role.ADMIN)
   @ApiBearerAuth('admin-jwt')
   @ApiOperation({ summary: 'Link an existing product to an event' })
   @ApiParam({ name: 'id', description: 'Event ID' })
@@ -63,7 +70,8 @@ export class EventsController {
   }
 
   @Delete(':id/products/:productId')
-  @UseGuards(AdminJwtGuard)
+  @UseGuards(AdminJwtGuard, RolesGuard)
+  @Roles(Role.ADMIN)
   @ApiBearerAuth('admin-jwt')
   @ApiOperation({ summary: 'Unlink a product from an event' })
   @ApiParam({ name: 'id', description: 'Event ID' })
