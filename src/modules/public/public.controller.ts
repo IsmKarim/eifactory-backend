@@ -59,6 +59,7 @@ export class PublicController {
       attempt = await this.attemptsService.createAttemptIfNotExists(
         String(participant._id),
         String(activeSession._id),
+        eventId,
         meta,
       );
     } catch (e: any) {

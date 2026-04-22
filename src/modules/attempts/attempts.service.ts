@@ -5,17 +5,8 @@ import { Attempt, AttemptDocument } from "./schemas/attempt.schema";
 import { QuestionsService } from "../questions/questions.service";
 import { AttemptStatus } from "src/common/enums/attempt-status.enums";
 import { SubmitAttemptDto } from "./dto/submt-attempt.dto";
-import { Question } from "../questions/questions.types";
 
-
-function pickRandom<T>(arr: T[], n: number): T[] {
-  const copy = [...arr];
-  for (let i = copy.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [copy[i], copy[j]] = [copy[j], copy[i]];
-  }
-  return copy.slice(0, n);
-}
+const CHOICE_IDS = ['a', 'b', 'c', 'd'] as const;
 
 function shuffle<T>(arr: T[]): T[] {
   const copy = [...arr];
@@ -26,35 +17,20 @@ function shuffle<T>(arr: T[]): T[] {
   return copy;
 }
 
-
-function pickQuestionsFromDistinctCategories(
-  questions: Question[],
-  count: number,
-): Question[] {
-  const grouped = new Map<string, Question[]>();
-
-  for (const q of questions) {
-    const category = q.category?.trim();
-
-    if (!category) continue; // skip uncategorized questions
-    if (!grouped.has(category)) grouped.set(category, []);
-    grouped.get(category)!.push(q);
-  }
-
-  const categories = [...grouped.keys()];
-
-  if (categories.length < count) {
-    throw new BadRequestException(
-      `Not enough categories configured. Need at least ${count}, found ${categories.length}.`,
-    );
-  }
-
-  const selectedCategories = pickRandom(categories, count);
-
-  return selectedCategories.map((category) => {
-    const categoryQuestions = grouped.get(category)!;
-    return pickRandom(categoryQuestions, 1)[0];
-  });
+function mapDbQuestion(doc: any) {
+  const correctChoiceId = CHOICE_IDS[doc.correctIndex as number];
+  const choices = (doc.options as string[]).map((label: string, i: number) => ({
+    id: CHOICE_IDS[i],
+    label,
+  }));
+  return {
+    questionId: String(doc._id),
+    prompt: doc.text as string,
+    imageUrl: (doc.imageUrl as string | null) ?? null,
+    choices: shuffle(choices),
+    correctChoiceId,
+    points: 1,
+  };
 }
 
 @Injectable()
@@ -94,42 +70,34 @@ export class AttemptsService {
   async createAttemptIfNotExists(
     participantId: string,
     sessionId: string,
+    eventId: string,
     meta?: { ip?: string; userAgent?: string }
   ) {
     if (!Types.ObjectId.isValid(participantId)) throw new BadRequestException("Invalid participant id.");
     if (!Types.ObjectId.isValid(sessionId)) throw new BadRequestException("Invalid session id.");
+    if (!Types.ObjectId.isValid(eventId)) throw new BadRequestException("Invalid event id.");
 
     const existing = await this.attemptModel.findOne({
       participantId: new Types.ObjectId(participantId),
       sessionId: new Types.ObjectId(sessionId),
     });
 
-    const { version, questions } = this.questionsService.getAdminQuestions();
-    if (questions.length < 3) throw new BadRequestException("Not enough questions configured.");
-
-    // If exists: ensure it has questions (migration-safe)
-    if (existing) {
-      if (!existing.questions || existing.questions.length === 0) {
-        const picked = pickQuestionsFromDistinctCategories(questions, 5);
-        console.log("picked questions:", picked);
-        existing.questions = picked.map((q) => ({
-          questionId: q.id,
-          prompt: q.prompt,
-          imageUrl : q.imageUrl ?? null,
-          choices: shuffle(q.choices),
-          correctChoiceId: q.correctChoiceId,
-          points: q.points ?? 1,
-        })) as any;
-
-        existing.totalQuestions = existing.questions.length;
-        existing.questionsVersion = version;
-        await existing.save();
-      }
+    // If exists and already has questions, resume as-is
+    if (existing && existing.questions && existing.questions.length > 0) {
       return existing.toObject();
     }
 
-    const picked = pickQuestionsFromDistinctCategories(questions, 5);
-    console.log("picked questions:", picked);
+    const dbQuestions = await this.questionsService.sampleForAttempt(eventId, 5);
+    const picked = dbQuestions.map(mapDbQuestion);
+
+    if (existing) {
+      existing.questions = picked as any;
+      existing.totalQuestions = picked.length;
+      existing.questionsVersion = '1';
+      await existing.save();
+      return existing.toObject();
+    }
+
     const created = await this.attemptModel.create({
       participantId: new Types.ObjectId(participantId),
       sessionId: new Types.ObjectId(sessionId),
@@ -137,23 +105,15 @@ export class AttemptsService {
       startedAt: null,
       submittedAt: null,
       elapsedMs: null,
-      questions: picked.map((q) => ({
-        questionId: q.id,
-        prompt: q.prompt,
-        imageUrl : q.imageUrl ?? null,
-        choices: shuffle(q.choices),
-        correctChoiceId: q.correctChoiceId,
-        points: q.points ?? 1,
-      })),
+      questions: picked,
       answers: [],
       score: 0,
       correctCount: 0,
-      totalQuestions: 5,
-      questionsVersion: version,
+      totalQuestions: picked.length,
+      questionsVersion: '1',
       ip: meta?.ip ?? null,
       userAgent: meta?.userAgent ?? null,
     });
-    console.log("created attempt:", created);
     return created.toObject();
   }
 

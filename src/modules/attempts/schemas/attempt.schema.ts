@@ -34,8 +34,8 @@ export class AttemptQuestion {
   @Prop({ required: true, trim: true, maxlength: 800 })
   prompt!: string;
 
-  @Prop({ required: true, trim: true, maxlength: 800 })
-  imageUrl!: string;
+  @Prop({ type: String, required: false, default: null, trim: true, maxlength: 800 })
+  imageUrl!: string | null;
 
   @Prop({ required: false, trim: true, maxlength: 800 })
   category!: string;
