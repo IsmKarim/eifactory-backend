@@ -1,10 +1,15 @@
-import { BadRequestException, Injectable, NotFoundException } from "@nestjs/common";
-import { InjectModel } from "@nestjs/mongoose";
-import { Model, Types } from "mongoose";
-import { Attempt, AttemptDocument } from "./schemas/attempt.schema";
-import { QuestionsService } from "../questions/questions.service";
-import { AttemptStatus } from "src/common/enums/attempt-status.enums";
-import { SubmitAttemptDto } from "./dto/submt-attempt.dto";
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model, Types } from 'mongoose';
+import { Attempt, AttemptDocument } from './schemas/attempt.schema';
+import { QuestionsService } from '../questions/questions.service';
+import { EventsService } from '../events/events.service';
+import { AttemptStatus } from 'src/common/enums/attempt-status.enums';
+import { SubmitAttemptDto } from './dto/submt-attempt.dto';
 
 const CHOICE_IDS = ['a', 'b', 'c', 'd'] as const;
 
@@ -39,26 +44,29 @@ export class AttemptsService {
     @InjectModel(Attempt.name)
     private readonly attemptModel: Model<AttemptDocument>,
     private readonly questionsService: QuestionsService,
-  ) { }
-
-
-
+    private readonly eventsService: EventsService,
+  ) {}
 
   async findById(id: string) {
-    if (!Types.ObjectId.isValid(id)) throw new BadRequestException("Invalid attempt id.");
+    if (!Types.ObjectId.isValid(id))
+      throw new BadRequestException('Invalid attempt id.');
     const attempt = await this.attemptModel.findById(id).lean();
-    if (!attempt) throw new NotFoundException("Attempt not found.");
+    if (!attempt) throw new NotFoundException('Attempt not found.');
     return attempt;
   }
 
   async findByParticipantAndSession(participantId: string, sessionId: string) {
-    if (!Types.ObjectId.isValid(participantId)) throw new BadRequestException("Invalid participant id.");
-    if (!Types.ObjectId.isValid(sessionId)) throw new BadRequestException("Invalid session id.");
+    if (!Types.ObjectId.isValid(participantId))
+      throw new BadRequestException('Invalid participant id.');
+    if (!Types.ObjectId.isValid(sessionId))
+      throw new BadRequestException('Invalid session id.');
 
-    return this.attemptModel.findOne({
-      participantId: new Types.ObjectId(participantId),
-      sessionId: new Types.ObjectId(sessionId),
-    }).lean();
+    return this.attemptModel
+      .findOne({
+        participantId: new Types.ObjectId(participantId),
+        sessionId: new Types.ObjectId(sessionId),
+      })
+      .lean();
   }
 
   /**
@@ -71,11 +79,14 @@ export class AttemptsService {
     participantId: string,
     sessionId: string,
     eventId: string,
-    meta?: { ip?: string; userAgent?: string }
+    meta?: { ip?: string; userAgent?: string },
   ) {
-    if (!Types.ObjectId.isValid(participantId)) throw new BadRequestException("Invalid participant id.");
-    if (!Types.ObjectId.isValid(sessionId)) throw new BadRequestException("Invalid session id.");
-    if (!Types.ObjectId.isValid(eventId)) throw new BadRequestException("Invalid event id.");
+    if (!Types.ObjectId.isValid(participantId))
+      throw new BadRequestException('Invalid participant id.');
+    if (!Types.ObjectId.isValid(sessionId))
+      throw new BadRequestException('Invalid session id.');
+    if (!Types.ObjectId.isValid(eventId))
+      throw new BadRequestException('Invalid event id.');
 
     const existing = await this.attemptModel.findOne({
       participantId: new Types.ObjectId(participantId),
@@ -87,7 +98,13 @@ export class AttemptsService {
       return existing.toObject();
     }
 
-    const dbQuestions = await this.questionsService.sampleForAttempt(eventId, 5);
+    const event = await this.eventsService.findById(eventId);
+    const questionCount = event.quiz?.questionCount ?? 10;
+
+    const dbQuestions = await this.questionsService.sampleForAttempt(
+      eventId,
+      questionCount,
+    );
     const picked = dbQuestions.map(mapDbQuestion);
 
     if (existing) {
@@ -117,15 +134,15 @@ export class AttemptsService {
     return created.toObject();
   }
 
-
   async startAttempt(attemptId: string) {
-    if (!Types.ObjectId.isValid(attemptId)) throw new BadRequestException("Invalid attempt id.");
+    if (!Types.ObjectId.isValid(attemptId))
+      throw new BadRequestException('Invalid attempt id.');
 
     const attempt = await this.attemptModel.findById(attemptId);
-    if (!attempt) throw new NotFoundException("Attempt not found.");
+    if (!attempt) throw new NotFoundException('Attempt not found.');
 
     if (attempt.status === AttemptStatus.SUBMITTED) {
-      throw new BadRequestException("Attempt already submitted.");
+      throw new BadRequestException('Attempt already submitted.');
     }
 
     // idempotent: starting again returns same startedAt
@@ -140,21 +157,21 @@ export class AttemptsService {
 
   async submitAttempt(attemptId: string, dto: SubmitAttemptDto) {
     if (!Types.ObjectId.isValid(attemptId)) {
-      throw new BadRequestException("Invalid attempt id.");
+      throw new BadRequestException('Invalid attempt id.');
     }
 
     const attempt = await this.attemptModel.findById(attemptId);
-    if (!attempt) throw new NotFoundException("Attempt not found.");
+    if (!attempt) throw new NotFoundException('Attempt not found.');
 
     if (attempt.status === AttemptStatus.SUBMITTED) {
-      throw new BadRequestException("Attempt already submitted.");
+      throw new BadRequestException('Attempt already submitted.');
     }
     if (!attempt.startedAt) {
-      throw new BadRequestException("Attempt has not been started.");
+      throw new BadRequestException('Attempt has not been started.');
     }
 
     if (!attempt.questions || attempt.questions.length === 0) {
-      throw new BadRequestException("Attempt has no questions assigned.");
+      throw new BadRequestException('Attempt has no questions assigned.');
     }
 
     // Allowed questions are ONLY the 3 assigned to this attempt
@@ -167,12 +184,16 @@ export class AttemptsService {
     for (const a of dto.answers) {
       const qid = a.questionId.trim();
       if (seen.has(qid)) {
-        throw new BadRequestException(`Duplicate answer for questionId: ${qid}`);
+        throw new BadRequestException(
+          `Duplicate answer for questionId: ${qid}`,
+        );
       }
       seen.add(qid);
 
       if (!allowed.has(qid)) {
-        throw new BadRequestException(`Question not part of this attempt: ${qid}`);
+        throw new BadRequestException(
+          `Question not part of this attempt: ${qid}`,
+        );
       }
     }
 
@@ -196,7 +217,10 @@ export class AttemptsService {
     }
 
     const submittedAt = new Date();
-    const elapsedMs = Math.max(0, submittedAt.getTime() - attempt.startedAt.getTime());
+    const elapsedMs = Math.max(
+      0,
+      submittedAt.getTime() - attempt.startedAt.getTime(),
+    );
 
     attempt.answers = dto.answers.map((a) => ({
       questionId: a.questionId.trim(),
@@ -218,5 +242,4 @@ export class AttemptsService {
     await attempt.save();
     return attempt.toObject();
   }
-
 }
